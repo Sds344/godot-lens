@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# godot-lens — zero-install entry point for the kit's interface.
+#
+#   ./godot-lens inspect
+#   ./godot-lens diagnose
+#   ./godot-lens validate
+#   ./godot-lens bench --selftest
+#
+# This wrapper exists so a fresh clone works without installing anything: it puts
+# src/ on PYTHONPATH and runs the package. If you would rather install it:
+#
+#   uv tool install .        # or: pip install --user .
+#   godot-lens inspect
+#
+# Both paths run the same code; this one just has no installation step.
+set -uo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PYTHONPATH="$HERE/src${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m godot_lens "$@"

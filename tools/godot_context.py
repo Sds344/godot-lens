@@ -36,7 +36,19 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+_HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _HERE)
+# The interface package owns the schema identity. Importing it keeps one source
+# of truth; the fallback exists so a collector copied out of the kit still emits
+# a self-describing payload instead of crashing.
+try:
+    sys.path.insert(0, os.path.join(os.path.dirname(_HERE), "src"))
+    from godot_lens import protocol as _protocol
+except ImportError:  # pragma: no cover - collector used without the package
+    class _protocol:  # noqa: N801
+        SCHEMA = "godot-lens/observation"
+        VERSION = "0.1"
+
 from project_path import find_project, state_dir  # noqa: E402
 
 PROJECT = find_project()
@@ -258,6 +270,8 @@ def section_findings():
 
 def build(fast=False, all_scenes=True):
     ctx = {
+        "schema": _protocol.SCHEMA,
+        "version": _protocol.VERSION,
         "engine": section_engine(),
         "project": section_project(),
         "api": section_api(),

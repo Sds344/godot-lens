@@ -185,27 +185,61 @@ def scene_rules(ctx):
     return out
 
 
+# Constructs whose loss removes narrative content rather than presentation.
+# Mirrors renpy2godot's mapper._CONTENT_LOSS_CONSTRUCTS; the converter embeds
+# the construct name in the warning text, which is the only channel crossing
+# into the engine today.
+_CONTENT_LOSS = (
+    "dialogue", "dialogue_attributes", "scene", "call", "jump", "return",
+    "label", "menu", "menu_choice", "if", "assignment",
+)
+
+
+def _fidelity_gap_severity(message: str) -> tuple[str, str, str]:
+    """Rank a translator warning by what was actually lost."""
+    lowered = message.lower()
+    if any(name in lowered for name in _CONTENT_LOSS):
+        return (
+            "error",
+            "Content was dropped: this is not a display difference, part of the "
+            "story is missing from the generated game.",
+            "Treat this as a converter defect, not a runtime one. Find the "
+            "source construct and fix the translation.",
+        )
+    return (
+        "warning",
+        "A construct was not fully translated; presentation may differ from "
+        "the Ren'Py original.",
+        "Inspect the source construct; this degrades fidelity without losing "
+        "story content.",
+    )
+
+
 def runtime_rules(ctx):
     out = []
     rt = ctx.get("runtime") or {}
     for w in rt.get("warnings", []):
-        # The converter's own diagnostics are informational, not defects.
+        # The converter's own diagnostics are not all equally interesting.
+        # Reporting every one of them at `info` made a DELETED LINE OF DIALOGUE
+        # indistinguishable from a transition rendered as a plain cut: both came
+        # out as `impact: behaviour may differ`, and a caller checking for
+        # problems saw 0 error / 0 warning on a game that had lost content.
+        #
+        # Content loss is ranked as an error, presentation loss as a warning.
+        # See docs/issues/001-converter-severity-flattened.md.
         code = "RUNTIME_WARNING"
         sev = "info"
+        impact = "Unexpected runtime condition."
+        action = "Investigate the warning's origin."
         if "renpy2godot:" in w:
             code = "CONVERTER_FIDELITY_GAP"
-            sev = "info"
+            sev, impact, action = _fidelity_gap_severity(w)
         out.append({
             "severity": sev,
             "code": code,
             "meaning": w,
-            "impact": ("A construct was not fully translated; behaviour may "
-                       "differ from the Ren'Py original."
-                       if code == "CONVERTER_FIDELITY_GAP"
-                       else "Unexpected runtime condition."),
-            "action": ("Inspect the source construct before changing runtime code."
-                       if code == "CONVERTER_FIDELITY_GAP"
-                       else "Investigate the warning's origin."),
+            "impact": impact,
+            "action": action,
         })
     for e in rt.get("errors", []):
         out.append({
@@ -302,8 +336,9 @@ RULE_CATALOG = [
      ".tscn declares nothing but runtime has nodes; file-based analysis misleads."),
     ("SCENE_DUMP_FAILED", "error", "Scene could not be inspected at all."),
     ("RUNTIME_ERROR", "error", "Error emitted while the game ran."),
-    ("CONVERTER_FIDELITY_GAP", "info",
-     "renpy2godot could not fully translate a construct."),
+    ("CONVERTER_FIDELITY_GAP", "error/warning",
+     "renpy2godot could not fully translate a construct; content loss is an "
+     "error, presentation loss a warning."),
     ("VALIDATION_*", "error/warning", "Headless validator findings."),
 ]
 

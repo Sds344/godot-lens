@@ -93,6 +93,24 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_CACHE_HOME" 2>/dev/null
 
 cd "$PROJECT" || { echo "FATAL: no project at $PROJECT" >&2; exit 2; }
 
+# --- One-time asset import ----------------------------------------------------
+# A freshly generated project has its asset files on disk but nothing imported,
+# and in that state `ResourceLoader.exists("res://assets/x.png")` is FALSE for a
+# file that is plainly present on disk. A game that loads textures by path then
+# reports "missing resource" for assets it actually has, which reads as a content
+# bug in the project rather than a missing build step.
+#
+# Importing here fixes that for every caller at once, and is a no-op on an
+# already-imported project.
+if [[ ! -d ".godot/imported" ]]; then
+  import_log="$(timeout 600 "$GODOT" --headless --import 2>&1)"
+  if [[ ! -d ".godot/imported" ]]; then
+    printf 'WARNING: asset import produced no .godot/imported directory.\n'
+    printf 'Textures loaded by path may report as missing. Last import output:\n'
+    printf '%s\n' "$import_log" | tail -5
+  fi
+fi
+
 # Godot's own noise that is never a project defect.
 NOISE='godot2026|dir_access|Failed to open .user://logs|editor_settings|Error saving editor settings'
 NOISE="$NOISE"'|Cannot save file .home|^$|^Godot Engine v'

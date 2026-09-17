@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "godot-lens"
+version = "0.1.0"
+description = "Observation infrastructure for game-development agents: engine state an agent can read, act on, and verify."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+keywords = ["godot", "agent", "observability", "testing", "llm"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Software Development :: Testing",
+]
+# Deliberately empty. This project shells out to the Godot binary and uses only
+# the Python standard library; a third-party dependency would be a cost imposed
+# on every user for no gain. See PROTOCOL.md on why the payload stays plain JSON.
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/OWNER/godot-lens"
+
+[project.scripts]
+godot-lens = "godot_lens.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

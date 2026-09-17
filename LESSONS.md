@@ -185,16 +185,60 @@ plugin variant) covers scene editing and project launching. The gap this project
 aims at is different: engine-accurate API knowledge, runtime state as a first-class
 view, explicit diagnostics, and a benchmark that checks whether a fix was real.
 
+## 13. False positives came back twice, and had the same shape
+
+Lesson 1 described one grader that passed a redirect. Two more were found later,
+and both were the *same defect* wearing different clothes:
+
+- **`case_001`.** The grader's final branch read `if 'get_node("StatusLabel")' not
+  in script: pass`. It fired whenever the script contained no `get_node` call at
+  all — so replacing the feature with `print("nothing to see here")` was graded
+  as *"the invalid get_node() call was removed"* and **passed**.
+- **`case_002`.** The grader read "static validation is clean". Deleting the
+  faulty `var health: int = "not an int"` declaration also produces a clean
+  check, so **deleting the declaration passed**.
+
+Both graded **the absence of a symptom as a successful repair**. The first was
+found by inspection; the second only by a self-test written to hunt for exactly
+this. That is the generalisable lesson: *a negative check ("the error is gone")
+is not a positive check ("the thing works"), and the gap between them is
+precisely where reward hacking lives.*
+
+**Mitigation adopted:** the graders are treated as code under test.
+`benchmarks/selftest.py` asserts, for every case, that an untouched fault fails,
+a real fix passes, and each named hack strategy fails. Six hacks are attempted
+and all six must be rejected. `benchmarks/repairs.py` holds the strategies as
+named functions, so "we reject reward hacking" is a runnable claim rather than a
+sentence in a document.
+
+The deeper point: **a grader encodes a specification, not a health check.**
+"Add the missing node" and "make the check pass" are different requirements, and
+a grader can only enforce the first if it is written to assert the repair
+positively. `benchmarks/cases/*/EXPECTED.md` now states what each case does and
+does not accept, because a grader whose spec is unwritten will drift from it.
+
 ## Open problems
 
 - **Coverage.** Path-coverage for a branching game needs goal-directed playtest,
   not longer runs. Unsolved here.
+- **The runtime view is a snapshot.** One tree, `N` frames in. A node created and
+  freed inside those frames — a transient dialog, a pause menu opened and closed
+  — is invisible for a reason unrelated to path coverage. A trace (sparse,
+  frame-stamped) would address both this and part of the coverage problem.
+- **The self-test verifies the graders, not the specification.** It proves the
+  graders are not trivially foolable; it cannot prove they accept every
+  legitimate repair. A grader is an oracle, and an oracle can be wrong in the
+  other direction by rejecting a real fix. Only external review of
+  `EXPECTED.md` addresses that.
 - **Semantic fidelity.** For a converter, engine health does not imply
   translation correctness — the target project can be perfectly valid and
   semantically wrong. That requires a source ↔ IR ↔ runtime comparison, which is
   a separate tool with a separate oracle.
 - **Mutation.** An agent interface that edits scenes programmatically does not
   exist here. Deliberate: making edits faster before the checker is hard to fool
-  only makes damage faster.
+  only makes damage faster. Note the inverse use, though: once the graders are
+  trustworthy, mutation is the honest way to *measure* observability coverage —
+  inject N fault classes and report how many the tooling detects.
 - **Editor state.** Inspector values and editor warnings remain unreachable
   without a GUI.
+
