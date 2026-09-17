@@ -38,6 +38,20 @@ def _ancestors_with_project(start):
         cur = parent
 
 
+def _ancestor_subdir(start, name):
+    """Nearest ancestor containing a subdirectory `name` that is a project."""
+    cur = os.path.abspath(start)
+    while True:
+        cand = os.path.join(cur, name)
+        if os.path.isdir(cand) and os.path.abspath(cand) != os.path.abspath(start):
+            if _has_project(cand):
+                return cand
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            return None
+        cur = parent
+
+
 def kit_root():
     """Directory containing this file's parent (…/godot-lens)."""
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -121,6 +135,17 @@ def find_project(start=None):
         return found
 
     found = _ancestors_with_project(kit_root())
+    if found:
+        return found
+
+    # A kit cloned INSIDE a repo that holds its project in a subdirectory, e.g.
+    #   <repo>/godot-lens/          <- this kit
+    #   <repo>/godot_project/       <- the project
+    # Walking up for project.godot finds nothing (the project is a sibling, not
+    # an ancestor), so look for the conventional directory name at each level on
+    # the way up. Without this, a clone nested inside a repo silently resolves to
+    # a non-existent path and every tool reports an empty project.
+    found = _ancestor_subdir(kit_root(), "godot_project")
     if found:
         return found
 
