@@ -1,0 +1,26 @@
+# Generated / machine-local
+
+# Godot XDG redirect + the generated API dump (~11 MB).
+# Regenerate the dump with: tools/godot_api.sh dump
+.tooling/
+.cache/
+
+# Godot import/editor cache (present if godot-lens sits inside a project)
+**/.godot/
+
+# Benchmark labs
+lab/
+*.lab/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Editors / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/
