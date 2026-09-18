@@ -12,6 +12,23 @@
 lab/
 *.lab/
 
+# Raw agent transcripts: ~176 MB across the three runs, which is 99.7% of the
+# repository's weight, for 0.6 MB of code, docs and per-cell records. They are
+# NOT deleted — they stay on the machine that produced them — but they are not
+# published, so that `git clone` stays fast.
+#
+# Nothing that matters is lost with them: every number they support is recorded
+# per cell in `runs/*.json`, the decisive excerpts are quoted verbatim in
+# `CONTAMINATION.md` (the "JACKPOT" block) and `results-isolated/RESULTS.md`
+# (the `sub_emitter` trace), and the whole set is reproducible from a documented
+# command:
+#
+#   python3 experiments/agent-ab/runner.py --matrix \
+#           --out experiments/agent-ab/results-isolated --jobs 5
+#
+# Anything that IS published has to be reproducible without them.
+experiments/agent-ab/**/transcripts/
+
 # Python
 __pycache__/
 *.py[cod]

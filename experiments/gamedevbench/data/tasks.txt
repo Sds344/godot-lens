@@ -1,0 +1,41 @@
+# Candidate GameDevBench tasks for the observability experiment.
+#
+# Selection rule (see select.py): the task's failure message is STRUCTURAL —
+# node presence, parenting, type, group, exported reference, project setting,
+# tile metadata, or a property value the instruction can state — AND at least
+# one of the three reference models passed it, which proves it is solvable under
+# the benchmark's own information conditions.
+#
+# "Hardest" was rejected as a rule: the 92 tasks failed by all three models cost
+# the same effort as the 109 tasks everyone passed (116s/166k vs 115s/153k tokens)
+# and are dominated by pixel-IoU thresholds, shader materials and magic group
+# names — the multimodal half a structural observer cannot address.
+#
+# Skill category is INFERRED from the task name and failure message, not read
+# from an official label: the public repo publishes the taxonomy only in
+# aggregate (Gameplay 35.6%, 3D 25.7%, 2D 19.7%, UI 15.9%). Treat it as a
+# spread heuristic, not as ground truth.
+#
+# <task>         <passed>  <inferred category>  reason it is in the pool
+
+task_0152        1/3   UI          ContinueButton size_flags_horizontal must be Fill
+task_0138        1/3   UI          AlertDialog should keep the Center preset growth behavior
+task_0065        1/3   UI          MarginContainer with HUD labels missing
+task_0020        1/3   UI          Play button text mismatch
+task_0128        2/3   UI          Panel grow directions must be BOTH
+
+task_0249        2/3   gameplay    Enemy.target must resolve to Target at runtime  (unset exported reference)
+task_0252        1/3   gameplay    Drone focus must resolve to the live Focus node at runtime
+task_0263        1/3   gameplay    DetectRange.base_range_size must be 30.0
+task_0002        2/3   gameplay    Projectile must react to enemies inside _on_area_entered
+task_0045        2/3   gameplay    Hand state machine path must remain 'parameters/playback'
+
+task_0090        1/3   2D          Add a Sprite2d child to Player
+task_0172        1/3   2D          Non-water tile (13, 4) must have water set to false
+task_0054        2/3   2D          AnimatedSprite2D.speed_scale must be 2.0
+
+task_0018        2/3   3D          RayCast3D missing under BarrelEnd
+task_0130        2/3   3D          Fog density must be 0.001
+
+task_0203        2/3   gameplay    Add a Node2D named SpawningPoints under Trap
+task_0184        0/3   2D          basic_enemy.tscn must exist   (0/3 probe: none passed, so gated hardest)

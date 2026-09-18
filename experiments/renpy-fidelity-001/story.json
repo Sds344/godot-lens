@@ -1,0 +1,1087 @@
+{
+  "assets": [
+    {
+      "kind": "audio",
+      "output_path": "assets/audio/theme.wav",
+      "references": [
+        "play:music"
+      ],
+      "source_path": "audio/theme.wav"
+    },
+    {
+      "kind": "image",
+      "output_path": "assets/images/bg_room.svg",
+      "references": [
+        "image:bg room"
+      ],
+      "source_path": "images/bg_room.svg"
+    },
+    {
+      "kind": "image",
+      "output_path": "assets/images/eileen_neutral.svg",
+      "references": [
+        "image:eileen neutral"
+      ],
+      "source_path": "images/eileen_neutral.svg"
+    }
+  ],
+  "config": {
+    "character.e": "Eileen",
+    "character.narrator": "",
+    "image.bg room": "images/bg_room.svg",
+    "image.eileen neutral": "images/eileen_neutral.svg"
+  },
+  "entry_label": "start",
+  "images": [
+    {
+      "name": [
+        "bg",
+        "room"
+      ],
+      "target": "images/bg_room.svg"
+    },
+    {
+      "name": [
+        "eileen",
+        "neutral"
+      ],
+      "target": "images/eileen_neutral.svg"
+    },
+    {
+      "name": [
+        "bg_room"
+      ],
+      "target": "images/bg_room.svg"
+    },
+    {
+      "name": [
+        "eileen_neutral"
+      ],
+      "target": "images/eileen_neutral.svg"
+    },
+    {
+      "name": [
+        "bg"
+      ],
+      "target": "images/bg_room.svg"
+    },
+    {
+      "name": [
+        "eileen"
+      ],
+      "target": "images/eileen_neutral.svg"
+    }
+  ],
+  "labels": [
+    {
+      "body": [
+        {
+          "kind": "scene",
+          "mapping": "approximate",
+          "source": {
+            "column": 5,
+            "end_column": 28,
+            "end_line": 11,
+            "line": 11,
+            "path": "script.rpy"
+          },
+          "target": "bg room",
+          "transition": "fade"
+        },
+        {
+          "channel": "music",
+          "kind": "play_audio",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 33,
+            "end_line": 12,
+            "line": 12,
+            "path": "script.rpy"
+          },
+          "target": "audio/theme.wav"
+        },
+        {
+          "kind": "show",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 24,
+            "end_line": 13,
+            "line": 13,
+            "path": "script.rpy"
+          },
+          "target": "eileen neutral"
+        },
+        {
+          "kind": "dialogue",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 24,
+            "end_line": 14,
+            "line": 14,
+            "path": "script.rpy"
+          },
+          "speaker": "e",
+          "text": "Hello, #friend."
+        },
+        {
+          "kind": "narration",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 58,
+            "end_line": 15,
+            "line": 15,
+            "path": "script.rpy"
+          },
+          "text": "This is narration with an escaped quote: \"hello\"."
+        },
+        {
+          "expression": {
+            "kind": "literal",
+            "source": {
+              "column": 17,
+              "end_column": 21,
+              "end_line": 16,
+              "line": 16,
+              "path": "script.rpy"
+            },
+            "value": true
+          },
+          "kind": "set_variable",
+          "mapping": "exact",
+          "name": "visited",
+          "source": {
+            "column": 5,
+            "end_column": 21,
+            "end_line": 16,
+            "line": 16,
+            "path": "script.rpy"
+          }
+        },
+        {
+          "expression": {
+            "kind": "binary",
+            "left": {
+              "kind": "variable",
+              "name": "score",
+              "source": {
+                "column": 15,
+                "end_column": 24,
+                "end_line": 17,
+                "line": 17,
+                "path": "script.rpy"
+              }
+            },
+            "operator": "+",
+            "right": {
+              "kind": "literal",
+              "source": {
+                "column": 15,
+                "end_column": 24,
+                "end_line": 17,
+                "line": 17,
+                "path": "script.rpy"
+              },
+              "value": 1
+            },
+            "source": {
+              "column": 15,
+              "end_column": 24,
+              "end_line": 17,
+              "line": 17,
+              "path": "script.rpy"
+            }
+          },
+          "kind": "set_variable",
+          "mapping": "exact",
+          "name": "score",
+          "source": {
+            "column": 5,
+            "end_column": 24,
+            "end_line": 17,
+            "line": 17,
+            "path": "script.rpy"
+          }
+        },
+        {
+          "branches": [
+            {
+              "body": [
+                {
+                  "kind": "dialogue",
+                  "mapping": "exact",
+                  "source": {
+                    "column": 9,
+                    "end_column": 42,
+                    "end_line": 19,
+                    "line": 19,
+                    "path": "script.rpy"
+                  },
+                  "speaker": "e",
+                  "text": "The exact branch is selected."
+                }
+              ],
+              "condition": {
+                "kind": "boolean",
+                "operands": [
+                  {
+                    "kind": "variable",
+                    "name": "visited",
+                    "source": {
+                      "column": 8,
+                      "end_column": 30,
+                      "end_line": 18,
+                      "line": 18,
+                      "path": "script.rpy"
+                    }
+                  },
+                  {
+                    "kind": "binary",
+                    "left": {
+                      "kind": "variable",
+                      "name": "score",
+                      "source": {
+                        "column": 8,
+                        "end_column": 30,
+                        "end_line": 18,
+                        "line": 18,
+                        "path": "script.rpy"
+                      }
+                    },
+                    "operator": ">=",
+                    "right": {
+                      "kind": "literal",
+                      "source": {
+                        "column": 8,
+                        "end_column": 30,
+                        "end_line": 18,
+                        "line": 18,
+                        "path": "script.rpy"
+                      },
+                      "value": 2
+                    },
+                    "source": {
+                      "column": 8,
+                      "end_column": 30,
+                      "end_line": 18,
+                      "line": 18,
+                      "path": "script.rpy"
+                    }
+                  }
+                ],
+                "operator": "and",
+                "source": {
+                  "column": 8,
+                  "end_column": 30,
+                  "end_line": 18,
+                  "line": 18,
+                  "path": "script.rpy"
+                }
+              },
+              "source": {
+                "column": 5,
+                "end_column": 31,
+                "end_line": 18,
+                "line": 18,
+                "path": "script.rpy"
+              }
+            },
+            {
+              "body": [
+                {
+                  "kind": "dialogue",
+                  "mapping": "exact",
+                  "source": {
+                    "column": 9,
+                    "end_column": 41,
+                    "end_line": 21,
+                    "line": 21,
+                    "path": "script.rpy"
+                  },
+                  "speaker": "e",
+                  "text": "This branch is not expected."
+                }
+              ],
+              "condition": {
+                "kind": "binary",
+                "left": {
+                  "kind": "variable",
+                  "name": "score",
+                  "source": {
+                    "column": 10,
+                    "end_column": 20,
+                    "end_line": 20,
+                    "line": 20,
+                    "path": "script.rpy"
+                  }
+                },
+                "operator": "==",
+                "right": {
+                  "kind": "literal",
+                  "source": {
+                    "column": 10,
+                    "end_column": 20,
+                    "end_line": 20,
+                    "line": 20,
+                    "path": "script.rpy"
+                  },
+                  "value": 0
+                },
+                "source": {
+                  "column": 10,
+                  "end_column": 20,
+                  "end_line": 20,
+                  "line": 20,
+                  "path": "script.rpy"
+                }
+              },
+              "source": {
+                "column": 5,
+                "end_column": 21,
+                "end_line": 20,
+                "line": 20,
+                "path": "script.rpy"
+              }
+            }
+          ],
+          "else_body": [
+            {
+              "kind": "dialogue",
+              "mapping": "exact",
+              "source": {
+                "column": 9,
+                "end_column": 29,
+                "end_line": 23,
+                "line": 23,
+                "path": "script.rpy"
+              },
+              "speaker": "e",
+              "text": "Fallback branch."
+            }
+          ],
+          "kind": "if",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 31,
+            "end_line": 18,
+            "line": 18,
+            "path": "script.rpy"
+          }
+        },
+        {
+          "choices": [
+            {
+              "body": [
+                {
+                  "kind": "call",
+                  "mapping": "exact",
+                  "source": {
+                    "column": 13,
+                    "end_column": 28,
+                    "end_line": 26,
+                    "line": 26,
+                    "path": "script.rpy"
+                  },
+                  "target": "room_visit"
+                }
+              ],
+              "condition": null,
+              "source": {
+                "column": 9,
+                "end_column": 26,
+                "end_line": 25,
+                "line": 25,
+                "path": "script.rpy"
+              },
+              "text": "Visit the room"
+            },
+            {
+              "body": [
+                {
+                  "kind": "jump",
+                  "mapping": "exact",
+                  "source": {
+                    "column": 13,
+                    "end_column": 24,
+                    "end_line": 28,
+                    "line": 28,
+                    "path": "script.rpy"
+                  },
+                  "target": "ending"
+                }
+              ],
+              "condition": {
+                "kind": "binary",
+                "left": {
+                  "kind": "variable",
+                  "name": "score",
+                  "source": {
+                    "column": 30,
+                    "end_column": 39,
+                    "end_line": 27,
+                    "line": 27,
+                    "path": "script.rpy"
+                  }
+                },
+                "operator": ">",
+                "right": {
+                  "kind": "literal",
+                  "source": {
+                    "column": 30,
+                    "end_column": 39,
+                    "end_line": 27,
+                    "line": 27,
+                    "path": "script.rpy"
+                  },
+                  "value": 0
+                },
+                "source": {
+                  "column": 30,
+                  "end_column": 39,
+                  "end_line": 27,
+                  "line": 27,
+                  "path": "script.rpy"
+                }
+              },
+              "source": {
+                "column": 9,
+                "end_column": 40,
+                "end_line": 27,
+                "line": 27,
+                "path": "script.rpy"
+              },
+              "text": "Take a shortcut"
+            },
+            {
+              "body": [
+                {
+                  "choices": [
+                    {
+                      "body": [
+                        {
+                          "kind": "jump",
+                          "mapping": "exact",
+                          "source": {
+                            "column": 21,
+                            "end_column": 32,
+                            "end_line": 32,
+                            "line": 32,
+                            "path": "script.rpy"
+                          },
+                          "target": "ending"
+                        }
+                      ],
+                      "condition": null,
+                      "source": {
+                        "column": 17,
+                        "end_column": 28,
+                        "end_line": 31,
+                        "line": 31,
+                        "path": "script.rpy"
+                      },
+                      "text": "Continue"
+                    },
+                    {
+                      "body": [
+                        {
+                          "expression": {},
+                          "kind": "return",
+                          "mapping": "exact",
+                          "source": {
+                            "column": 21,
+                            "end_column": 27,
+                            "end_line": 34,
+                            "line": 34,
+                            "path": "script.rpy"
+                          }
+                        }
+                      ],
+                      "condition": null,
+                      "source": {
+                        "column": 17,
+                        "end_column": 26,
+                        "end_line": 33,
+                        "line": 33,
+                        "path": "script.rpy"
+                      },
+                      "text": "Return"
+                    }
+                  ],
+                  "clauses": [],
+                  "kind": "menu",
+                  "mapping": "exact",
+                  "prompt": null,
+                  "prompt_speaker": null,
+                  "source": {
+                    "column": 13,
+                    "end_column": 18,
+                    "end_line": 30,
+                    "line": 30,
+                    "path": "script.rpy"
+                  }
+                }
+              ],
+              "condition": null,
+              "source": {
+                "column": 9,
+                "end_column": 24,
+                "end_line": 29,
+                "line": 29,
+                "path": "script.rpy"
+              },
+              "text": "Nested route"
+            }
+          ],
+          "clauses": [],
+          "kind": "menu",
+          "mapping": "exact",
+          "prompt": "What should we do next?",
+          "prompt_speaker": null,
+          "source": {
+            "column": 5,
+            "end_column": 36,
+            "end_line": 24,
+            "line": 24,
+            "path": "script.rpy"
+          }
+        },
+        {
+          "kind": "hide",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 24,
+            "end_line": 35,
+            "line": 35,
+            "path": "script.rpy"
+          },
+          "target": "eileen neutral"
+        },
+        {
+          "channel": "music",
+          "kind": "stop_audio",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 15,
+            "end_line": 36,
+            "line": 36,
+            "path": "script.rpy"
+          }
+        },
+        {
+          "kind": "jump",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 16,
+            "end_line": 37,
+            "line": 37,
+            "path": "script.rpy"
+          },
+          "target": "ending"
+        }
+      ],
+      "name": "start",
+      "next_label": "room_visit",
+      "source": {
+        "column": 1,
+        "end_column": 13,
+        "end_line": 10,
+        "line": 10,
+        "path": "script.rpy"
+      }
+    },
+    {
+      "body": [
+        {
+          "kind": "scene",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 18,
+            "end_line": 40,
+            "line": 40,
+            "path": "script.rpy"
+          },
+          "target": "bg room",
+          "transition": null
+        },
+        {
+          "kind": "dialogue",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 27,
+            "end_line": 41,
+            "line": 41,
+            "path": "script.rpy"
+          },
+          "speaker": "e",
+          "text": "The room is quiet."
+        },
+        {
+          "expression": {},
+          "kind": "return",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 11,
+            "end_line": 42,
+            "line": 42,
+            "path": "script.rpy"
+          }
+        }
+      ],
+      "name": "room_visit",
+      "next_label": "ending",
+      "source": {
+        "column": 1,
+        "end_column": 18,
+        "end_line": 39,
+        "line": 39,
+        "path": "script.rpy"
+      }
+    },
+    {
+      "body": [
+        {
+          "kind": "dialogue",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 17,
+            "end_line": 45,
+            "line": 45,
+            "path": "script.rpy"
+          },
+          "speaker": "e",
+          "text": "The end."
+        },
+        {
+          "expression": {},
+          "kind": "return",
+          "mapping": "exact",
+          "source": {
+            "column": 5,
+            "end_column": 11,
+            "end_line": 46,
+            "line": 46,
+            "path": "script.rpy"
+          }
+        }
+      ],
+      "name": "ending",
+      "next_label": null,
+      "source": {
+        "column": 1,
+        "end_column": 14,
+        "end_line": 44,
+        "line": 44,
+        "path": "script.rpy"
+      }
+    }
+  ],
+  "project_name": "RenpyProject",
+  "schema_version": 2,
+  "screens": [
+    {
+      "name": "hud",
+      "source": {
+        "column": 1,
+        "end_column": 51,
+        "end_line": 14,
+        "line": 1,
+        "path": "screens.rpy"
+      },
+      "widgets": [
+        {
+          "action": null,
+          "children": [
+            {
+              "action": null,
+              "children": [
+                {
+                  "action": null,
+                  "children": [],
+                  "kind": "text",
+                  "mapping": "exact",
+                  "properties": [],
+                  "source": {
+                    "column": 13,
+                    "end_column": 26,
+                    "end_line": 8,
+                    "line": 8,
+                    "path": "screens.rpy"
+                  },
+                  "text": "Status"
+                },
+                {
+                  "action": null,
+                  "children": [
+                    {
+                      "action": null,
+                      "children": [],
+                      "kind": "text",
+                      "mapping": "exact",
+                      "properties": [],
+                      "source": {
+                        "column": 17,
+                        "end_column": 29,
+                        "end_line": 10,
+                        "line": 10,
+                        "path": "screens.rpy"
+                      },
+                      "text": "Score"
+                    },
+                    {
+                      "action": {
+                        "arguments": [
+                          "'room_visit'"
+                        ],
+                        "kind": "Jump",
+                        "mapping": "exact",
+                        "source": {
+                          "column": 17,
+                          "end_column": 61,
+                          "end_line": 11,
+                          "line": 11,
+                          "path": "screens.rpy"
+                        }
+                      },
+                      "children": [],
+                      "kind": "textbutton",
+                      "mapping": "exact",
+                      "properties": [],
+                      "source": {
+                        "column": 17,
+                        "end_column": 61,
+                        "end_line": 11,
+                        "line": 11,
+                        "path": "screens.rpy"
+                      },
+                      "text": "Visit"
+                    }
+                  ],
+                  "kind": "hbox",
+                  "mapping": "exact",
+                  "properties": [],
+                  "source": {
+                    "column": 13,
+                    "end_column": 61,
+                    "end_line": 11,
+                    "line": 9,
+                    "path": "screens.rpy"
+                  },
+                  "text": null
+                },
+                {
+                  "action": {
+                    "arguments": [
+                      "'visited'",
+                      "True"
+                    ],
+                    "kind": "SetVariable",
+                    "mapping": "exact",
+                    "source": {
+                      "column": 13,
+                      "end_column": 56,
+                      "end_line": 12,
+                      "line": 12,
+                      "path": "screens.rpy"
+                    }
+                  },
+                  "children": [
+                    {
+                      "action": null,
+                      "children": [],
+                      "kind": "text",
+                      "mapping": "exact",
+                      "properties": [],
+                      "source": {
+                        "column": 17,
+                        "end_column": 36,
+                        "end_line": 13,
+                        "line": 13,
+                        "path": "screens.rpy"
+                      },
+                      "text": "Mark visited"
+                    }
+                  ],
+                  "kind": "button",
+                  "mapping": "exact",
+                  "properties": [],
+                  "source": {
+                    "column": 13,
+                    "end_column": 36,
+                    "end_line": 13,
+                    "line": 12,
+                    "path": "screens.rpy"
+                  },
+                  "text": null
+                },
+                {
+                  "action": {
+                    "arguments": [
+                      "'ending'"
+                    ],
+                    "kind": "Jump",
+                    "mapping": "exact",
+                    "source": {
+                      "column": 13,
+                      "end_column": 51,
+                      "end_line": 14,
+                      "line": 14,
+                      "path": "screens.rpy"
+                    }
+                  },
+                  "children": [],
+                  "kind": "textbutton",
+                  "mapping": "exact",
+                  "properties": [],
+                  "source": {
+                    "column": 13,
+                    "end_column": 51,
+                    "end_line": 14,
+                    "line": 14,
+                    "path": "screens.rpy"
+                  },
+                  "text": "End"
+                }
+              ],
+              "kind": "vbox",
+              "mapping": "exact",
+              "properties": [
+                {
+                  "mapping": "approximate",
+                  "name": "spacing",
+                  "source": {
+                    "column": 13,
+                    "end_column": 23,
+                    "end_line": 7,
+                    "line": 7,
+                    "path": "screens.rpy"
+                  },
+                  "value": "12"
+                }
+              ],
+              "source": {
+                "column": 9,
+                "end_column": 51,
+                "end_line": 14,
+                "line": 6,
+                "path": "screens.rpy"
+              },
+              "text": null
+            }
+          ],
+          "kind": "frame",
+          "mapping": "exact",
+          "properties": [
+            {
+              "mapping": "approximate",
+              "name": "xpos",
+              "source": {
+                "column": 9,
+                "end_column": 18,
+                "end_line": 4,
+                "line": 4,
+                "path": "screens.rpy"
+              },
+              "value": "0.05"
+            },
+            {
+              "mapping": "approximate",
+              "name": "ypos",
+              "source": {
+                "column": 9,
+                "end_column": 18,
+                "end_line": 5,
+                "line": 5,
+                "path": "screens.rpy"
+              },
+              "value": "0.05"
+            }
+          ],
+          "source": {
+            "column": 5,
+            "end_column": 51,
+            "end_line": 14,
+            "line": 3,
+            "path": "screens.rpy"
+          },
+          "text": null
+        }
+      ]
+    },
+    {
+      "name": "pause_overlay",
+      "source": {
+        "column": 1,
+        "end_column": 55,
+        "end_line": 20,
+        "line": 16,
+        "path": "screens.rpy"
+      },
+      "widgets": [
+        {
+          "action": null,
+          "children": [
+            {
+              "action": null,
+              "children": [],
+              "kind": "label",
+              "mapping": "exact",
+              "properties": [],
+              "source": {
+                "column": 9,
+                "end_column": 23,
+                "end_line": 18,
+                "line": 18,
+                "path": "screens.rpy"
+              },
+              "text": "Paused"
+            },
+            {
+              "action": {
+                "arguments": [],
+                "kind": "Return",
+                "mapping": "exact",
+                "source": {
+                  "column": 9,
+                  "end_column": 44,
+                  "end_line": 19,
+                  "line": 19,
+                  "path": "screens.rpy"
+                }
+              },
+              "children": [],
+              "kind": "textbutton",
+              "mapping": "exact",
+              "properties": [],
+              "source": {
+                "column": 9,
+                "end_column": 44,
+                "end_line": 19,
+                "line": 19,
+                "path": "screens.rpy"
+              },
+              "text": "Return"
+            },
+            {
+              "action": {
+                "arguments": [
+                  "'pause_overlay'"
+                ],
+                "kind": "Hide",
+                "mapping": "exact",
+                "source": {
+                  "column": 9,
+                  "end_column": 55,
+                  "end_line": 20,
+                  "line": 20,
+                  "path": "screens.rpy"
+                }
+              },
+              "children": [],
+              "kind": "textbutton",
+              "mapping": "exact",
+              "properties": [],
+              "source": {
+                "column": 9,
+                "end_column": 55,
+                "end_line": 20,
+                "line": 20,
+                "path": "screens.rpy"
+              },
+              "text": "Hide"
+            }
+          ],
+          "kind": "fixed",
+          "mapping": "exact",
+          "properties": [],
+          "source": {
+            "column": 5,
+            "end_column": 55,
+            "end_line": 20,
+            "line": 17,
+            "path": "screens.rpy"
+          },
+          "text": null
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "default": true,
+      "expression": {
+        "kind": "literal",
+        "source": {
+          "column": 19,
+          "end_column": 24,
+          "end_line": 4,
+          "line": 4,
+          "path": "script.rpy"
+        },
+        "value": false
+      },
+      "name": "visited",
+      "source": {
+        "column": 1,
+        "end_column": 24,
+        "end_line": 4,
+        "line": 4,
+        "path": "script.rpy"
+      }
+    },
+    {
+      "default": true,
+      "expression": {
+        "kind": "binary",
+        "left": {
+          "kind": "literal",
+          "source": {
+            "column": 17,
+            "end_column": 22,
+            "end_line": 5,
+            "line": 5,
+            "path": "script.rpy"
+          },
+          "value": 1
+        },
+        "operator": "+",
+        "right": {
+          "kind": "literal",
+          "source": {
+            "column": 17,
+            "end_column": 22,
+            "end_line": 5,
+            "line": 5,
+            "path": "script.rpy"
+          },
+          "value": 2
+        },
+        "source": {
+          "column": 17,
+          "end_column": 22,
+          "end_line": 5,
+          "line": 5,
+          "path": "script.rpy"
+        }
+      },
+      "name": "score",
+      "source": {
+        "column": 1,
+        "end_column": 22,
+        "end_line": 5,
+        "line": 5,
+        "path": "script.rpy"
+      }
+    }
+  ]
+}

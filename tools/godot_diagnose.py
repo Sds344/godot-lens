@@ -34,6 +34,16 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTEXT = os.path.join(ROOT, "tools", "godot_context.py")
 
+# The structural lint lives in the interface package. Imported rather than
+# reimplemented here because its two checks are decidable from the engine's
+# reflection data plus the scene text, and duplicating that logic would give the
+# two callers a way to disagree about the same scene.
+sys.path.insert(0, os.path.join(ROOT, "src"))
+try:
+    from godot_lens import scene_lint
+except ImportError:  # pragma: no cover - collector used without the package
+    scene_lint = None
+
 SEV_ORDER = {"error": 0, "warning": 1, "info": 2}
 
 
@@ -277,6 +287,53 @@ def validate_rules(ctx):
     return out
 
 
+def structural_rules(ctx):
+    """Faults the engine accepts silently, from the scene text plus reflection data.
+
+    Everything else in this file reacts to something the engine *said*: a runtime
+    error, a configuration warning, a validator finding. These two checks cover the
+    opposite case, where the engine says nothing at all — a property attached to a
+    class that does not declare it, and an exported reference never assigned.
+
+    They matter because they are the two most common structural failure modes
+    measured in GameDevBench's failure analysis (36.2% and 35.9% of failures; see
+    `docs/gamedevbench-failure-modes.md`), and because neither needs a runtime: the
+    `.tscn` names its own types and the API dump says which class owns which
+    property.
+
+    Conservative by construction. An unknown class is skipped rather than guessed
+    at, and a property list is resolved through the full inheritance chain, because
+    a checker that cries wolf on normal scenes gets ignored along with the layer it
+    belongs to. Verified at zero false positives on the reference project's scenes.
+    """
+    if scene_lint is None:
+        return []
+    dump = os.path.join(os.environ.get("GODOT_LENS_HOME", ""),
+                        "api-dump", "extension_api.json")
+    if not os.path.exists(dump):
+        # Without reflection data the wrong-class check cannot run. Skipping is
+        # correct: inventing a property list would produce confident false
+        # positives, which is worse than reporting nothing.
+        return []
+    try:
+        api = scene_lint.ApiIndex(dump)
+    except (OSError, ValueError, KeyError):
+        return []
+
+    project = (ctx.get("project") or {}).get("path") or ""
+    findings = []
+    for scene in ctx.get("scenes", []):
+        name = scene.get("scene", "")
+        rel = name[6:] if name.startswith("res://") else name
+        path = os.path.join(project, rel)
+        if not os.path.exists(path):
+            continue
+        runtime_root = ((scene.get("runtime") or {}).get("root"))
+        findings.extend(scene_lint.lint_scene(path, api, name,
+                                              runtime_root=runtime_root))
+    return findings
+
+
 def diagnose(ctx):
     findings = []
     for scene, view, root in _all_nodes(ctx):
@@ -288,6 +345,7 @@ def diagnose(ctx):
     findings.extend(scene_rules(ctx))
     findings.extend(runtime_rules(ctx))
     findings.extend(validate_rules(ctx))
+    findings.extend(structural_rules(ctx))
 
     # De-duplicate: the same node is reported for both views.
     seen, unique = set(), []
@@ -340,6 +398,13 @@ RULE_CATALOG = [
      "renpy2godot could not fully translate a construct; content loss is an "
      "error, presentation loss a warning."),
     ("VALIDATION_*", "error/warning", "Headless validator findings."),
+    ("PROPERTY_ON_WRONG_CLASS", "error",
+     "A property assigned to a class that does not declare it: Godot ignores it "
+     "silently, so the setting is absent and nothing reports it."),
+    ("UNSET_EXPORTED_REFERENCE", "warning",
+     "An exported reference declared but never assigned: the script reads null, "
+     "and the failure surfaces later and elsewhere."),
+    ("SCENE_UNREADABLE", "error", "The scene file could not be read."),
 ]
 
 

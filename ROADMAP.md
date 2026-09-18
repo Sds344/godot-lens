@@ -72,59 +72,179 @@ split waits until a second engine is real.
 This is where the project earns the right to make a claim. Without it, the
 tooling is a set of useful commands with no evidence they help.
 
-- [ ] **Extend the task suite** beyond three hand-written cases: API misuse
-      (calling a method that does not exist in the installed engine), scene
-      structure faults, dynamic-UI-build failures, and — most importantly —
-      **semantic/conversion faults**, where the project is engine-healthy and
-      semantically wrong.
-- [ ] **Mutation testing to quantify observability coverage.** Inject N fault
+**Phase 2A done:** the semantic-fidelity study (§ below) — four instruments, both
+directions, verified against the real historical defect.
+
+- [x] **Semantic/conversion faults** — the case where the project is
+      engine-healthy and semantically wrong. `experiments/renpy-fidelity-001/`,
+      driven by `godot-lens study`.
+- [ ] **Extend the task suite** beyond three hand-written cases, using the
+      GameDevBench failure taxonomy as the fault list
+      (`docs/gamedevbench-failure-modes.md`). The structural half of that taxonomy
+      is now measurable: coverage reports 8/10 classes detected.
+- [x] **Mutation testing to quantify observability coverage.** Inject N fault
       classes, report how many the tooling detects. This turns "we know there
-      are blind spots" into "the blind spot is this large", which is the
-      difference between an admission and a measurement. Note this is the
-      *inverse* of the previously-declined mutation idea: measuring detection,
-      not accelerating damage.
+      are blind spots" into "the blind spot is these specific classes", which is
+      the difference between an admission and a measurement. This is the
+      *inverse* of the previously-declined mutation idea: measuring detection, not
+      accelerating damage.
+
+      **Measured: 8/10 fault classes detected, 2 blind, 0 false positives** on the
+      reference project. `godot-lens bench --coverage`.
+
+      | Fault class | Verdict |
+      |---|---|
+      | collision-shape-missing | SEEN (`COLLISION_SHAPE_MISSING`) |
+      | collision-shape-missing-3d | SEEN (via `inspect` — the 2D rule does not cover it) |
+      | collision-layer-zero | SEEN (`COLLISION_LAYER_ZERO`) |
+      | sprite-texture-missing | SEEN |
+      | node-path-invalid | SEEN (`inspect` runtime) |
+      | type-error | SEEN (static, both layers) |
+      | property-on-wrong-class | SEEN (`PROPERTY_ON_WRONG_CLASS`) — GameDevBench §G.1 |
+      | unset-exported-reference | SEEN (`UNSET_EXPORTED_REFERENCE`) — GameDevBench 35.9% |
+      | **physics-overlap-2d** | **BLIND** — overlapping colliders are legal to Godot |
+      | **control-offscreen** | **BLIND** — no viewport-bounds comparison exists |
+
+      The last two classes were added *because of* the GameDevBench failure
+      taxonomy (`docs/gamedevbench-failure-modes.md`): they are the two most common
+      structural failure modes the benchmark measured (36.2% and 35.9% of
+      failures), and neither had a detector here. One of them needed a new
+      **observation** first — exported members were not in the runtime dump at all,
+      so the fault was invisible for lack of data rather than lack of a rule.
+
+      The two blind classes are **not missing rules**. "Two colliders overlap" is a
+      legal scene the engine does not report; finding it needs bounding-box
+      intersection, and "a Control is outside the viewport" needs a rect comparison
+      against the viewport. Those are **new observation capabilities**, a different
+      kind of work from adding a rule — which is why the measurement had to come
+      first. Recorded in `benchmarks/mutations.py::KNOWN_UNOBSERVABLE` so the gap
+      cannot be mistaken for coverage.
+
+      The first run of this harness reported a wrong number three ways, all of
+      which it caught itself. See `LESSONS.md` §18.
 - [ ] **A/B experiment:** agent alone vs. agent + `godot-lens`, on the same task
       suite. Report fix rate, iterations, and — the metric that matters most —
       **hack rate** (how often a task is "completed" without being repaired).
       The hack rate is the number no comparable tool reports, and it is the one
       this project is equipped to measure honestly.
 
+### The fidelity study and its central finding
+
+`godot-lens study` compares source → IR → runtime with four instruments, each
+blind to what the others see. The reason there are four is the study's main
+result: instruments 1–3 were pointed at the **real broken IR** from the converter's
+history and **all three reported agreement**, because a broken model can be a
+*superset* of the runtime's behaviour. Only instrument 4, which checks the model's
+internal consistency instead of comparing it to output, saw the defect. See
+`LESSONS.md` §15.
+
 ---
 
-## Phase 3 — CI as a first-class consumer
+## Phase 3 — CI as a first-class consumer ✅ complete
 
 Cheap, and it makes the project usable by people who do not use AI at all.
 
-- [ ] A GitHub Action wrapping `godot_validate.sh --json`.
-- [ ] Finding → diff annotation, so results appear on the PR rather than in a log.
-- [ ] Document the two traps prominently: Godot's exit code is not a health
-      signal, and a green run is not a correctness proof.
+- [x] A GitHub Action wrapping `godot_validate.sh --json`
+      (`.github/workflows/validate.yml`).
+- [x] Finding → diff annotation, so results appear on the PR rather than in a log
+      (`benchmarks/annotate.py`). Kept as a real file, not an inline YAML heredoc,
+      so it can be run and tested locally.
+- [x] Documented the two traps: Godot's exit code is not a health signal, and a
+      green run is not a correctness proof.
+- [x] `godot-lens ci` — a one-line verdict from a payload, for pipeline logs.
 
 ---
 
-## Phase 4 — agent context modes
+## Phase 4 — agent context modes ✅ complete
 
-Today there are two shapes: a ~500-token digest and a ~4.9k-token full payload.
-Make the intent explicit rather than implied.
+- [x] `inspect --agent` — a compact digest budgeted for a context window
+      (~120 tokens for the reference project, against ~4.9k for the full payload).
+- [x] `inspect` — human-readable.
+- [x] `inspect --json` — the raw schema for programs. `--json-out FILE` freezes a
+      payload so the other two modes can be exercised with no engine running.
 
-- [ ] `inspect --agent` — the compact digest, named for its consumer.
-- [ ] `inspect` — human-readable.
-- [ ] `inspect --json` — the raw schema for programs.
-
-**Design constraint:** the agent digest may summarise observed state, but it must
-not *invent* interpretation. A line like "speaker mapping looks wrong" is a
-diagnosis (L4), and it belongs to `diagnose`, not to `inspect`. Blurring those
-layers is how an observation tool starts asserting things it cannot see.
+**The design constraint held, and it forced a real decision.** The digest
+summarises observed state and never invents interpretation. It also has **three
+runtime states, not two**: a project whose game never booted renders as
+`NOT OBSERVED`, never as "0 errors". That case is a supported input precisely
+because it is where a digest can do the most damage — a clean-looking summary for
+a project nothing was learned about.
 
 ---
 
-## Phase 5 — presentation (deliberately last)
+## Phase 5 — presentation
 
-- [ ] Single-file HTML report: inline JSON, vanilla JS, inline SVG, no build step,
-      no server, no framework. Renders the frozen schema; touches no core logic.
+- [x] Single-file HTML report: inline JSON, vanilla JS, inline SVG, no build step,
+      no server, no framework (`godot-lens render`, `src/godot_lens/render.py`).
+      Verified self-contained — no external `src`/`href` — so it opens from a
+      `file://` URL and can be attached to a PR or dropped into a README.
 - [ ] Optionally, an MCP adapter as a **thin** layer over the same schema.
       MCP is an adapter target, never the core — the core must stay usable from
       a plain shell.
+
+---
+
+## Shaders: what is in scope, and what never will be
+
+GameDevBench's failure analysis attributes 22.6% of failures to "incorrect shader
+or material assignment" and 22.6% to "incorrect shader, post-processing, or
+environment parameters". The first instinct is that shaders are multimodal and
+therefore out of scope. Measured, that is only half true, and the half that is
+structural is worth doing.
+
+Three experiments decided the split:
+
+| Question | Measured result | Consequence |
+|---|---|---|
+| Does the engine report a shader compile error? | **Yes** — `SHADER ERROR: Expected a ';'` plus `Shader compilation failed` | Already caught by the runtime layer; needs explaining, not detecting |
+| Is a `ShaderMaterial` with no shader assigned observable? | **No** — the dumper emits no material field at all | An observation gap, cheap to close |
+| Is a misspelled `shader_parameter/` name reported? | **No** — completely silent | **Structurally checkable anyway**: the shader declares its uniforms, the material sets its parameters |
+
+### In scope
+
+- [ ] `SHADER_COMPILE_FAILED` — turn the engine's raw compile error into cause and
+      consequence. The detection already works; the layer that explains `impact`
+      and `action` is what is missing.
+- [ ] `SHADER_PARAMETER_UNKNOWN` — a `shader_parameter/name` the shader does not
+      declare. The same shape as `PROPERTY_ON_WRONG_CLASS`: a correct-looking token
+      attached to something that does not define it, accepted in silence. Decidable
+      from `Shader.get_shader_uniform_list()` plus the `.tscn` text, so it needs no
+      rendering. **This is the largest reachable slice of the 22.6%.**
+- [ ] `MATERIAL_MISSING` / shader resource unresolvable — requires first adding
+      material information to the runtime dump, which is a genuine observation
+      addition rather than a rule.
+
+### Explicitly out of scope, permanently
+
+Whether a shader **looks right** — the visual result of a colour ramp, a
+distortion, a blend — is not obtainable without rendering and comparing pixels
+against intent. That is `render`-and-compare work, and intent is not in the
+protocol. A shader that compiles and whose parameters all exist but which produces
+the wrong image is a correct observation of a wrong result, and no check here will
+ever close that.
+
+The honest framing for the README: **the structural half of shader failure is
+reachable, the perceptual half is not.**
+
+### How the three audiences were separated
+
+The renderers were first tangled into the collectors, so changing an output format
+meant booting the engine — and the cases most in need of care (a project that
+cannot boot, a malformed payload) were the hardest to reach.
+
+They now live in `src/godot_lens/render.py` as **pure functions of the payload**:
+
+| Audience | Entry point | Shape |
+|---|---|---|
+| agent | `inspect --agent` | ~120-token digest, three runtime states |
+| ci | `godot-lens ci --in payload.json` | one verdict line |
+| human | `godot-lens render --in payload.json` | one self-contained HTML file |
+
+`inspect --json-out FILE` freezes a payload, and `experiments/fixtures/` holds real
+captured ones, so `benchmarks/render_selftest.py` asserts 32 properties with **no
+Godot, no project, no network**. The awkward inputs become ordinary files. This is
+the decoupling that makes a UI affordable on a system that is expensive to run —
+see `LESSONS.md` §16.
 
 ---
 

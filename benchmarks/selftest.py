@@ -34,6 +34,7 @@ import json
 import os
 import shutil
 import sys
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -44,8 +45,21 @@ import repairs  # noqa: E402
 
 
 def _lab_root():
-    """Labs live under .tooling so they are gitignored and never committed."""
-    base = os.environ.get("GODOT_LENS_HOME") or os.path.join(REPO, ".tooling")
+    """A scratch directory OUTSIDE the kit.
+
+    This used to be `<repo>/.tooling/selftest`, which was fine until
+    `make_copy` learned to refuse a destination inside the repository — it walks
+    the whole kit, so copying into itself recurses without bound. The refusal
+    was correct and this default was not updated with it, so the selftest exited
+    1 before running a single scenario.
+
+    That matters more than a broken script usually would: `README.md` shows this
+    command as the evidence that the graders reject hacks. A trust signal that
+    cannot be executed is worse than none, because a reader sees the command,
+    the output, and no reason to doubt either. See `LESSONS.md` §24.
+    """
+    base = os.environ.get("GODOT_LENS_HOME") or os.path.join(
+        tempfile.gettempdir(), "godot-lens-selftest")
     return os.path.join(base, "selftest")
 
 

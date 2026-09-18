@@ -301,7 +301,26 @@ def _env(root):
 
 
 def _run_game(root, frames=120):
+    """Boot the lab's project. Never boots when there is nothing runnable.
+
+    Godot's run path raises an OS alert when `run/main_scene` is missing or
+    invalid, and on Linux that alert is a `zenity` modal dialog on the user's
+    desktop; `--headless` does not suppress it. An agent being benchmarked may
+    well delete the main scene as a "fix", so this path is reachable in normal
+    use, and a benchmark must not put a dialog on someone's screen while grading.
+    """
     proj = os.path.join(root, "godot_project")
+    checker = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                           "tools", "main_scene_check.sh")
+    if os.path.exists(checker):
+        try:
+            pre = subprocess.run(["bash", checker], cwd=proj,
+                                 capture_output=True, text=True, timeout=60)
+            if pre.returncode != 0:
+                reason = (pre.stdout or pre.stderr).strip()
+                return 1, f"cannot boot: {reason}"
+        except (OSError, subprocess.SubprocessError):
+            pass
     try:
         p = subprocess.run(["godot", "--headless", "--quit-after", str(frames)],
                            cwd=proj, env=_env(root), capture_output=True,
@@ -339,6 +358,28 @@ def _run_scene(root, scene):
 
 # --- Copy / grade -------------------------------------------------------------
 
+def state_dir_for_dump():
+    """Where the engine API dump lives, using the kit's resolution order.
+
+    Mirrors `tools/project_path.py::state_dir()`: an explicit `$GODOT_LENS_HOME`,
+    then `<kit>/.tooling`, then a user cache directory. Reimplemented rather than
+    imported because `project_path` is resolved by path for the shell collectors,
+    and importing it here would make this module depend on being run from a
+    particular directory.
+    """
+    for var in ("GODOT_LENS_HOME", "GODOT_KIT_HOME"):
+        env = os.environ.get(var)
+        if env:
+            return env
+    local = os.path.join(REPO, ".tooling")
+    if os.path.isdir(local):
+        return local
+    return os.path.join(
+        os.environ.get("XDG_CACHE_HOME",
+                       os.path.join(os.path.expanduser("~"), ".cache")),
+        "godot-lens")
+
+
 def make_copy(dest, project=None):
     """Build a self-contained lab: the kit's tools + the target Godot project.
 
@@ -357,6 +398,23 @@ def make_copy(dest, project=None):
     A `tools/` shim is written into the lab so the tool paths that benchmark
     prompts mention actually resolve there.
     """
+    # Refuse to copy the repository into itself. `make_copy` walks the repo, so a
+    # destination inside it produces an unbounded self-copy: the first copy
+    # contains a copy of the destination directory, which contains a copy...
+    # Observed as thousands of nested paths and `[Errno 36] File name too long`,
+    # after the A/B runner defaulted its labs into `experiments/.../results/labs/`.
+    # This is the same class of mistake as the shim that exec'd itself
+    # (LESSONS.md §11) — a path assembled without checking it was not already the
+    # thing being copied.
+    dest_abs = os.path.abspath(dest)
+    if dest_abs == REPO or dest_abs.startswith(REPO + os.sep):
+        raise SystemExit(
+            f"benchmark: refusing to copy the kit into itself.\n"
+            f"  kit : {REPO}\n"
+            f"  dest: {dest_abs}\n"
+            "Choose a destination outside the repository: `make_copy` walks the "
+            "whole kit, so a destination inside it copies itself recursively.")
+
     if os.path.exists(dest):
         shutil.rmtree(dest)
     os.makedirs(dest, exist_ok=True)
@@ -393,6 +451,29 @@ def make_copy(dest, project=None):
     for sub in ("config", "data", "cache"):
         os.makedirs(os.path.join(dest, ".tooling", "godot_home", sub),
                     exist_ok=True)
+
+    # 3b. Link the engine API dump into the lab, so a lab is a self-contained copy
+    # of the kit rather than a degraded one.
+    #
+    # Without it, every check that needs reflection data silently cannot run —
+    # `scene_lint` refuses to invent a property list and reports nothing, which is
+    # indistinguishable from finding nothing. A coverage run reported two working
+    # detectors as blind for exactly this reason. Symlinked rather than copied
+    # because it is ~11 MB and the kit's copy is authoritative.
+    dump_src = os.path.join(state_dir_for_dump(), "api-dump")
+    dump_dst = os.path.join(dest, ".tooling", "api-dump")
+    if os.path.isdir(dump_src) and not os.path.exists(dump_dst):
+        try:
+            os.symlink(os.path.abspath(dump_src), dump_dst)
+        except OSError:
+            # A symlink can fail on some filesystems; copying the JSON alone is
+            # enough for reflection queries.
+            try:
+                os.makedirs(dump_dst, exist_ok=True)
+                shutil.copy2(os.path.join(dump_src, "extension_api.json"),
+                             os.path.join(dump_dst, "extension_api.json"))
+            except OSError:
+                pass
 
     # 4. `tools/` shim so the documented commands work inside the lab.
     #

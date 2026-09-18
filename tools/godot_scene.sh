@@ -60,6 +60,19 @@ export XDG_DATA_HOME="$STATE/godot_home/data"
 export XDG_CACHE_HOME="$STATE/godot_home/cache"
 mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_CACHE_HOME" 2>/dev/null
 
+# --- Asset import is NOT done here -------------------------------------------
+# It used to be, unconditionally, and that was wrong in two ways.
+#
+# First, it is unnecessary for a static dump: that view serialises what the .tscn
+# declares and loads no textures, so an unimported project costs it nothing. Only
+# `--runtime` reads `Sprite2D.texture` values that depend on the import cache, so
+# only `--runtime` needs the pass.
+#
+# Second, running an import on every invocation made this tool hang for ten
+# minutes against a project whose `.godot/` the sandbox had made read-only. The
+# import is now bounded and, more importantly, it happens only where it changes
+# the answer. See `ensure_imported.sh` for what the pass is for.
+
 RUNTIME_FLAG=()
 SCENES=()
 ALL=0
@@ -87,6 +100,13 @@ extract_json() {
 }
 
 FAILED=0
+
+# The import pass runs only when the answer depends on it — i.e. for --runtime,
+# which reads texture paths. A static dump never needs it, so it never pays for it.
+if [[ ${#RUNTIME_FLAG[@]} -gt 0 ]]; then
+  ( cd "$PROJECT" && bash "$ROOT/tools/ensure_imported.sh" ) || true
+fi
+
 for s in "${SCENES[@]}"; do
   rel="${s#res://}"
   [[ "$s" == res://* ]] || rel="$s"

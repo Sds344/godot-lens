@@ -1,0 +1,43 @@
+{
+  "cell": "L2-unset-export__armB__r1",
+  "case": "L2-unset-export",
+  "level": 2,
+  "arm": "B",
+  "arm_name": "native",
+  "lens_available": false,
+  "repeat": 1,
+  "injected": "@export var target: NodePath declared with no assignment",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 20.3,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L2-unset-export__armB__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": false,
+  "repaired": true,
+  "detail": "target is assigned to 'Other', which exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 13,
+  "tool_calls": 12,
+  "bash_calls": 4,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 3,
+  "cost_usd": 0.41444900000000007,
+  "input_tokens": 48041,
+  "output_tokens": 2308,
+  "final_message": "Wired and verified.\n\n**Change:** `Main.tscn:8` — added `target = NodePath(\"Other\")` to the `Main` node, pointing the export at the `Other` `Node2D` that exists in the scene.\n\n**Before:** `godot --headless --quit-after 60` printed `<Object#null>` — `get_node_or_null(target)` got an empty `NodePath`.\n**After:** printed `Other:<Node2D#24897389931>` — a real node.\n\n`probe.gd` is untouched: `@export var target: NodePath` and `@export var speed: float` remain, so the export stays editable in the inspector and the feature is intact. This is the only unwired node-reference export in the project (`grep '@export'` matches only `probe.gd:3-4`), and `Main.tscn` is the main scene (`project.godot:6`).\n\nTask complete."
+}

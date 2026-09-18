@@ -1,0 +1,3008 @@
+{
+ "source_runs": [
+  "glm52_opencode_full_headless_with_timeout_reruns_1800",
+  "gpt6_astra_codex_runtime_video_high_full_333",
+  "opus48_claude_code_runtime_video_full_333"
+ ],
+ "total_tasks": 333,
+ "note": "Derived from the official per-model results JSONs so the 1.7 MB of raw runs need not be committed. Regenerate with select.py.",
+ "tasks": [
+  {
+   "task": "task_0002",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Projectile must react to enemies inside _on_area_entered",
+   "tokens": 17769,
+   "duration_s": 137.51394510269165
+  },
+  {
+   "task": "task_0003",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "'explode' first frame must come from smoke sheet region (0,128,64,64)",
+   "tokens": 36865,
+   "duration_s": 316.2130286693573
+  },
+  {
+   "task": "task_0004",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 4313,
+   "duration_s": 58.481027126312256
+  },
+  {
+   "task": "task_0005",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ControlPanelRect grow mode stay bottom-aligned",
+   "tokens": 14463,
+   "duration_s": 217.55242013931274
+  },
+  {
+   "task": "task_0006",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "CODE",
+   "message": "UnitAI.debug_label must reference FSMDebugLabel",
+   "tokens": 8934,
+   "duration_s": 193.8648796081543
+  },
+  {
+   "task": "task_0007",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 5106,
+   "duration_s": 46.5189995765686
+  },
+  {
+   "task": "task_0008",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 13054,
+   "duration_s": 193.88273310661316
+  },
+  {
+   "task": "task_0009",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 42131,
+   "duration_s": 319.8250720500946
+  },
+  {
+   "task": "task_0010",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 19390,
+   "duration_s": 189.19352865219116
+  },
+  {
+   "task": "task_0011",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 10975,
+   "duration_s": 250.89701581001282
+  },
+  {
+   "task": "task_0012",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 5515,
+   "duration_s": 75.9261167049408
+  },
+  {
+   "task": "task_0013",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 4029,
+   "duration_s": 51.55694031715393
+  },
+  {
+   "task": "task_0014",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Background mode must be SKY",
+   "tokens": 10493,
+   "duration_s": 104.21447014808655
+  },
+  {
+   "task": "task_0015",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 7587,
+   "duration_s": 126.04680967330933
+  },
+  {
+   "task": "task_0016",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 9538,
+   "duration_s": 151.71432542800903
+  },
+  {
+   "task": "task_0017",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 14478,
+   "duration_s": 142.79767298698425
+  },
+  {
+   "task": "task_0018",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "RayCast3D missing under BarrelEnd",
+   "tokens": 11570,
+   "duration_s": 143.1643888950348
+  },
+  {
+   "task": "task_0019",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "MuzzleFireLeft must use the muzzle flash shader material",
+   "tokens": 32554,
+   "duration_s": 409.7393138408661
+  },
+  {
+   "task": "task_0020",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Play button text mismatch",
+   "tokens": 29573,
+   "duration_s": 389.8504798412323
+  },
+  {
+   "task": "task_0021",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 16397,
+   "duration_s": 239.10949206352234
+  },
+  {
+   "task": "task_0022",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 7365,
+   "duration_s": 109.3791024684906
+  },
+  {
+   "task": "task_0023",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 19345,
+   "duration_s": 172.83969688415527
+  },
+  {
+   "task": "task_0024",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "item_highlight_mesh export is unassigned",
+   "tokens": 27760,
+   "duration_s": 595.5075342655182
+  },
+  {
+   "task": "task_0025",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "'interact' action must be bound to the F key",
+   "tokens": 34739,
+   "duration_s": 221.54012870788574
+  },
+  {
+   "task": "task_0026",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Export 'camera_shake_noise' missing on PlayerBody",
+   "tokens": 13450,
+   "duration_s": 166.2086009979248
+  },
+  {
+   "task": "task_0027",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Impulse direction should push camera backwards along -Z",
+   "tokens": 19607,
+   "duration_s": 399.10472345352173
+  },
+  {
+   "task": "task_0028",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "PillarPoint node missing",
+   "tokens": 13762,
+   "duration_s": 238.43980288505554
+  },
+  {
+   "task": "task_0029",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "CODE",
+   "message": "EnemySpawnPointA TargetToSet must reference PlayerBody.",
+   "tokens": 32177,
+   "duration_s": 494.96093916893005
+  },
+  {
+   "task": "task_0030",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Main scene missing",
+   "tokens": 24146,
+   "duration_s": 449.396283864975
+  },
+  {
+   "task": "task_0031",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Main scene missing",
+   "tokens": 35912,
+   "duration_s": 474.64139223098755
+  },
+  {
+   "task": "task_0032",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "SmokeEmitter.draw_order should be VIEW_DEPTH",
+   "tokens": 28514,
+   "duration_s": 380.22626090049744
+  },
+  {
+   "task": "task_0033",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "ArcingChunks must use a StandardMaterial3D override",
+   "tokens": 78164,
+   "duration_s": 875.5973525047302
+  },
+  {
+   "task": "task_0034",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "debug dictionary missing velocity entry",
+   "tokens": 6816,
+   "duration_s": 69.7622287273407
+  },
+  {
+   "task": "task_0035",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Missing black velocity line",
+   "tokens": 23885,
+   "duration_s": 374.4653956890106
+  },
+  {
+   "task": "task_0036",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 28231,
+   "duration_s": 291.9690592288971
+  },
+  {
+   "task": "task_0037",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 28146,
+   "duration_s": 266.8543496131897
+  },
+  {
+   "task": "task_0038",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 62550,
+   "duration_s": 994.4302146434784
+  },
+  {
+   "task": "task_0039",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 19924,
+   "duration_s": 188.75703835487366
+  },
+  {
+   "task": "task_0040",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 33524,
+   "duration_s": 582.2051057815552
+  },
+  {
+   "task": "task_0041",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 28359,
+   "duration_s": 578.0760271549225
+  },
+  {
+   "task": "task_0042",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "new_ball must trigger camera shake velocity change",
+   "tokens": 19273,
+   "duration_s": 347.18499398231506
+  },
+  {
+   "task": "task_0043",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "PortraitTexture must have unique_name_in_owner enabled",
+   "tokens": 11409,
+   "duration_s": 392.8479313850403
+  },
+  {
+   "task": "task_0044",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Items must assign the icon texture when added",
+   "tokens": 16586,
+   "duration_s": 565.3039586544037
+  },
+  {
+   "task": "task_0045",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Hand state machine path must remain 'parameters/playback'",
+   "tokens": 48818,
+   "duration_s": 548.2507421970367
+  },
+  {
+   "task": "task_0046",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 17367,
+   "duration_s": 316.5652232170105
+  },
+  {
+   "task": "task_0047",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 13392,
+   "duration_s": 201.68325853347778
+  },
+  {
+   "task": "task_0048",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Draggable without overlaps must call self_destruct and queue_free",
+   "tokens": 18259,
+   "duration_s": 167.6506793498993
+  },
+  {
+   "task": "task_0049",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 28968,
+   "duration_s": 573.3778901100159
+  },
+  {
+   "task": "task_0050",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 11078,
+   "duration_s": 53.17713189125061
+  },
+  {
+   "task": "task_0051",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "gravity must increment velocity.y each frame",
+   "tokens": 9234,
+   "duration_s": 176.17461776733398
+  },
+  {
+   "task": "task_0052",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Failed to load Player scene.",
+   "tokens": 2793,
+   "duration_s": 39.38743782043457
+  },
+  {
+   "task": "task_0053",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 9089,
+   "duration_s": 172.93336033821106
+  },
+  {
+   "task": "task_0054",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "AnimatedSprite2D.speed_scale must be 2.0",
+   "tokens": 39161,
+   "duration_s": 586.6294364929199
+  },
+  {
+   "task": "task_0055",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "CODE",
+   "message": "player.gd must reference snappedf",
+   "tokens": 9878,
+   "duration_s": 71.69959115982056
+  },
+  {
+   "task": "task_0056",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Sweep.fill_mode must be Counter Clockwise",
+   "tokens": 21367,
+   "duration_s": 304.43573665618896
+  },
+  {
+   "task": "task_0057",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Main needs at least two Unit instances for testing",
+   "tokens": 19883,
+   "duration_s": 173.53423595428467
+  },
+  {
+   "task": "task_0058",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Label2 text incorrect",
+   "tokens": 25918,
+   "duration_s": 362.07813572883606
+  },
+  {
+   "task": "task_0059",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "PlayerMarker must be centered on Grid",
+   "tokens": 25860,
+   "duration_s": 362.1859965324402
+  },
+  {
+   "task": "task_0060",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "CODE",
+   "message": "Minimap must define set_zoom",
+   "tokens": 39191,
+   "duration_s": 572.8300955295563
+  },
+  {
+   "task": "task_0061",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 5869,
+   "duration_s": 136.09734559059143
+  },
+  {
+   "task": "task_0062",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 17454,
+   "duration_s": 319.65592765808105
+  },
+  {
+   "task": "task_0063",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Top margin left padding must be 20",
+   "tokens": 9730,
+   "duration_s": 147.61930584907532
+  },
+  {
+   "task": "task_0064",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Door switch needs an Area2D collision CapsuleShape2D",
+   "tokens": 17991,
+   "duration_s": 181.0518479347229
+  },
+  {
+   "task": "task_0065",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "MarginContainer with HUD labels missing",
+   "tokens": 22769,
+   "duration_s": 455.7971611022949
+  },
+  {
+   "task": "task_0066",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 23561,
+   "duration_s": 413.35532546043396
+  },
+  {
+   "task": "task_0067",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 31963,
+   "duration_s": 336.02015948295593
+  },
+  {
+   "task": "task_0068",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Crate must be destroyed after bullet hit",
+   "tokens": 3199,
+   "duration_s": 90.11726307868958
+  },
+  {
+   "task": "task_0069",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0070",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0071",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0072",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0073",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0074",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0075",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0076",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0077",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0078",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SKIPPED",
+   "message": "Task skipped: requires display (requires_display=true)",
+   "tokens": 0,
+   "duration_s": 0.0
+  },
+  {
+   "task": "task_0079",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 102141,
+   "duration_s": 545.0706236362457
+  },
+  {
+   "task": "task_0080",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "Set Player.motion_mode to Floating for 8-direction movement",
+   "tokens": 67045,
+   "duration_s": 892.0171511173248
+  },
+  {
+   "task": "task_0081",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Idle animations atlas was sliced incorrectly",
+   "tokens": 25104,
+   "duration_s": 282.2965762615204
+  },
+  {
+   "task": "task_0082",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Idle animations atlas was sliced incorrectly",
+   "tokens": 22350,
+   "duration_s": 244.29508543014526
+  },
+  {
+   "task": "task_0083",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 47308,
+   "duration_s": 353.0528943538666
+  },
+  {
+   "task": "task_0084",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 40995,
+   "duration_s": 216.9939842224121
+  },
+  {
+   "task": "task_0085",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 25836,
+   "duration_s": 313.12307691574097
+  },
+  {
+   "task": "task_0086",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 100693,
+   "duration_s": 751.016229391098
+  },
+  {
+   "task": "task_0087",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "RectangleShape2D size must be 32x32 pixels",
+   "tokens": 28774,
+   "duration_s": 527.8042602539062
+  },
+  {
+   "task": "task_0088",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Animation 'up' used incorrect frames 3",
+   "tokens": 85282,
+   "duration_s": 938.4696567058563
+  },
+  {
+   "task": "task_0089",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Label text incorrect",
+   "tokens": 23414,
+   "duration_s": 406.0817918777466
+  },
+  {
+   "task": "task_0090",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Sprite2d child to Player",
+   "tokens": 44833,
+   "duration_s": 580.7467496395111
+  },
+  {
+   "task": "task_0091",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 6828,
+   "duration_s": 99.17911028862
+  },
+  {
+   "task": "task_0092",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "sound_player.gd not found",
+   "tokens": 7049,
+   "duration_s": 81.58205127716064
+  },
+  {
+   "task": "task_0093",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "VBoxContainer must be centered with 0.5 anchors",
+   "tokens": 16122,
+   "duration_s": 296.8289694786072
+  },
+  {
+   "task": "task_0094",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "RomPickerDialog title incorrect",
+   "tokens": 18663,
+   "duration_s": 409.3041491508484
+  },
+  {
+   "task": "task_0095",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Shader code missing required parts: const float curvature = 7.0, const float vignette_multiplier = 2.0, uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap, centered_uv.yx / curvature, step(abs(warped_uv.x), 1.0), step(abs(warped_uv.y), 1.0), sin(2.0 * warped_uv.y * 180.0), pow(abs(centered_uv), vec2(4.0)) / 3.0, textureLod(screen_texture, (warped_uv + 1.0) / 2.0, 0.2), COLOR = vec4(screen_color, 1.0)",
+   "tokens": 16103,
+   "duration_s": 127.89599609375
+  },
+  {
+   "task": "task_0096",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Shader must use render_mode unshaded",
+   "tokens": 13845,
+   "duration_s": 215.41246485710144
+  },
+  {
+   "task": "task_0097",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "VisualShader constants do not match DistortionUV example",
+   "tokens": 42767,
+   "duration_s": 491.227215051651
+  },
+  {
+   "task": "task_0098",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 17107,
+   "duration_s": 215.68918204307556
+  },
+  {
+   "task": "task_0099",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 16255,
+   "duration_s": 251.5751872062683
+  },
+  {
+   "task": "task_0100",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Shader missing HQX marker: diag(",
+   "tokens": 24532,
+   "duration_s": 293.3694314956665
+  },
+  {
+   "task": "task_0101",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 16256,
+   "duration_s": 130.79994320869446
+  },
+  {
+   "task": "task_0102",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Tile (0, 0) collision polygon must be a full 18x18 box",
+   "tokens": 10069,
+   "duration_s": 217.8603219985962
+  },
+  {
+   "task": "task_0103",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "NavigationAgent2D path_postprocessing must be Corridor",
+   "tokens": 23396,
+   "duration_s": 317.8016679286957
+  },
+  {
+   "task": "task_0104",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 13544,
+   "duration_s": 170.67533159255981
+  },
+  {
+   "task": "task_0105",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15551,
+   "duration_s": 146.9261326789856
+  },
+  {
+   "task": "task_0106",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "outline.glsl missing 'uniform image2D color_image'",
+   "tokens": 39343,
+   "duration_s": 570.231648683548
+  },
+  {
+   "task": "task_0107",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Surface material is not a ShaderMaterial",
+   "tokens": 11229,
+   "duration_s": 132.24801015853882
+  },
+  {
+   "task": "task_0108",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Tank must enable and disable particles while moving",
+   "tokens": 19465,
+   "duration_s": 222.79808831214905
+  },
+  {
+   "task": "task_0109",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Hurt step must be 0.1",
+   "tokens": 13271,
+   "duration_s": 167.80364298820496
+  },
+  {
+   "task": "task_0110",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "ShaderMaterial not assigned to SphereMesh",
+   "tokens": 7654,
+   "duration_s": 126.39770150184631
+  },
+  {
+   "task": "task_0111",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 8046,
+   "duration_s": 112.84674072265625
+  },
+  {
+   "task": "task_0112",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 14580,
+   "duration_s": 216.2178614139557
+  },
+  {
+   "task": "task_0113",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15135,
+   "duration_s": 197.15074348449707
+  },
+  {
+   "task": "task_0114",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 14718,
+   "duration_s": 304.3477189540863
+  },
+  {
+   "task": "task_0115",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 16637,
+   "duration_s": 228.15820860862732
+  },
+  {
+   "task": "task_0116",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 43639,
+   "duration_s": 570.1074984073639
+  },
+  {
+   "task": "task_0117",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 29803,
+   "duration_s": 457.77182936668396
+  },
+  {
+   "task": "task_0118",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 22712,
+   "duration_s": 337.74882912635803
+  },
+  {
+   "task": "task_0119",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 30695,
+   "duration_s": 494.2921853065491
+  },
+  {
+   "task": "task_0120",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 14302,
+   "duration_s": 164.02472257614136
+  },
+  {
+   "task": "task_0121",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Panel background color must be RPG blue (#1743 8C)",
+   "tokens": 18462,
+   "duration_s": 138.70728874206543
+  },
+  {
+   "task": "task_0122",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Highlight mesh does not have flipped faces",
+   "tokens": 13248,
+   "duration_s": 184.0656771659851
+  },
+  {
+   "task": "task_0123",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 48987,
+   "duration_s": 333.6576874256134
+  },
+  {
+   "task": "task_0124",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 8607,
+   "duration_s": 112.48209881782532
+  },
+  {
+   "task": "task_0125",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 60525,
+   "duration_s": 438.1579463481903
+  },
+  {
+   "task": "task_0126",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 8820,
+   "duration_s": 203.46102786064148
+  },
+  {
+   "task": "task_0127",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 6153,
+   "duration_s": 118.30768609046936
+  },
+  {
+   "task": "task_0128",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Panel grow directions must be BOTH",
+   "tokens": 20494,
+   "duration_s": 196.7867329120636
+  },
+  {
+   "task": "task_0129",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Skybox cover texture not properly configured",
+   "tokens": 15087,
+   "duration_s": 198.1298553943634
+  },
+  {
+   "task": "task_0130",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Fog density must be 0.001",
+   "tokens": 13434,
+   "duration_s": 80.57408356666565
+  },
+  {
+   "task": "task_0131",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44059,
+   "duration_s": 336.4921655654907
+  },
+  {
+   "task": "task_0132",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "grid_scale must be derived from grid size, viewport, and zoom",
+   "tokens": 41027,
+   "duration_s": 332.231595993042
+  },
+  {
+   "task": "task_0133",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15149,
+   "duration_s": 165.75040531158447
+  },
+  {
+   "task": "task_0134",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ControlPanelRect should keep the Bottom Wide preset growth behavior",
+   "tokens": 9512,
+   "duration_s": 185.72126650810242
+  },
+  {
+   "task": "task_0135",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ControlPanelRect should keep the Bottom Wide preset growth behavior",
+   "tokens": 13926,
+   "duration_s": 234.1491985321045
+  },
+  {
+   "task": "task_0136",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StatusStrip should keep the Bottom Wide preset growth behavior",
+   "tokens": 5251,
+   "duration_s": 134.11743450164795
+  },
+  {
+   "task": "task_0137",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DashboardBar should keep the Bottom Wide preset growth behavior",
+   "tokens": 24199,
+   "duration_s": 560.6188056468964
+  },
+  {
+   "task": "task_0138",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "AlertDialog should keep the Center preset growth behavior",
+   "tokens": 14828,
+   "duration_s": 288.6569290161133
+  },
+  {
+   "task": "task_0139",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DangerDialog should keep the Center preset growth behavior",
+   "tokens": 5695,
+   "duration_s": 197.68934082984924
+  },
+  {
+   "task": "task_0140",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "WarningDialog should keep the Center preset growth behavior",
+   "tokens": 21167,
+   "duration_s": 364.99279141426086
+  },
+  {
+   "task": "task_0141",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "TopPanel should keep the Top Wide preset growth behavior",
+   "tokens": 39654,
+   "duration_s": 785.1679780483246
+  },
+  {
+   "task": "task_0142",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "HeaderBar should keep the Top Wide preset growth behavior",
+   "tokens": 33934,
+   "duration_s": 437.95513248443604
+  },
+  {
+   "task": "task_0143",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StatusHeader should keep the Top Wide preset growth behavior",
+   "tokens": 25332,
+   "duration_s": 308.3634445667267
+  },
+  {
+   "task": "task_0144",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "LeftPanel should keep the Left Wide preset growth behavior",
+   "tokens": 17873,
+   "duration_s": 306.94229531288147
+  },
+  {
+   "task": "task_0145",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "SideBar should keep the Left Wide preset growth behavior",
+   "tokens": 17056,
+   "duration_s": 429.64223194122314
+  },
+  {
+   "task": "task_0146",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StatusRail should keep the Left Wide preset growth behavior",
+   "tokens": 16385,
+   "duration_s": 532.24787068367
+  },
+  {
+   "task": "task_0147",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44725,
+   "duration_s": 633.8172254562378
+  },
+  {
+   "task": "task_0148",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "SidePanel should keep the Right Wide preset growth behavior",
+   "tokens": 11490,
+   "duration_s": 257.4079601764679
+  },
+  {
+   "task": "task_0149",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StatusPanel should keep the Right Wide preset growth behavior",
+   "tokens": 6275,
+   "duration_s": 108.07216048240662
+  },
+  {
+   "task": "task_0150",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "VBoxContainer must be centered with 0.5 anchors",
+   "tokens": 23863,
+   "duration_s": 469.2727720737457
+  },
+  {
+   "task": "task_0151",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Expand Fill",
+   "tokens": 14973,
+   "duration_s": 262.21799516677856
+  },
+  {
+   "task": "task_0152",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Fill",
+   "tokens": 18055,
+   "duration_s": 428.108500957489
+  },
+  {
+   "task": "task_0153",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15784,
+   "duration_s": 273.7464642524719
+  },
+  {
+   "task": "task_0154",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Fill",
+   "tokens": 24556,
+   "duration_s": 363.9374406337738
+  },
+  {
+   "task": "task_0155",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Expand",
+   "tokens": 13180,
+   "duration_s": 261.9162049293518
+  },
+  {
+   "task": "task_0156",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Shrink Begin",
+   "tokens": 16001,
+   "duration_s": 349.36041045188904
+  },
+  {
+   "task": "task_0157",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Shrink Begin",
+   "tokens": 15128,
+   "duration_s": 303.0899887084961
+  },
+  {
+   "task": "task_0158",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Expand",
+   "tokens": 16612,
+   "duration_s": 372.383061170578
+  },
+  {
+   "task": "task_0159",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Expand",
+   "tokens": 26740,
+   "duration_s": 590.4849772453308
+  },
+  {
+   "task": "task_0160",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44993,
+   "duration_s": 489.7880368232727
+  },
+  {
+   "task": "task_0161",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Expand Fill",
+   "tokens": 16350,
+   "duration_s": 383.3933584690094
+  },
+  {
+   "task": "task_0162",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "ContinueButton size_flags_horizontal must be Shrink Begin",
+   "tokens": 26077,
+   "duration_s": 311.6309313774109
+  },
+  {
+   "task": "task_0163",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 29910,
+   "duration_s": 557.6392300128937
+  },
+  {
+   "task": "task_0164",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "takeoff animation must use the expected frame from the 7th row",
+   "tokens": 79674,
+   "duration_s": 865.9068365097046
+  },
+  {
+   "task": "task_0165",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27588,
+   "duration_s": 403.8690302371979
+  },
+  {
+   "task": "task_0166",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "kick animation must enable DamageEmitter monitoring during the kick and disable it when the kick ends",
+   "tokens": 26046,
+   "duration_s": 309.6417512893677
+  },
+  {
+   "task": "task_0167",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 24535,
+   "duration_s": 369.3151385784149
+  },
+  {
+   "task": "task_0168",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 21516,
+   "duration_s": 267.13836336135864
+  },
+  {
+   "task": "task_0169",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 28577,
+   "duration_s": 299.7632348537445
+  },
+  {
+   "task": "task_0170",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27948,
+   "duration_s": 419.32805466651917
+  },
+  {
+   "task": "task_0171",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27305,
+   "duration_s": 283.12379455566406
+  },
+  {
+   "task": "task_0172",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Non-water tile (13, 4) must have water set to false",
+   "tokens": 24016,
+   "duration_s": 226.58736872673035
+  },
+  {
+   "task": "task_0173",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Non-pipe tile (12, 0) must have pipe set to false",
+   "tokens": 97464,
+   "duration_s": 1122.5346512794495
+  },
+  {
+   "task": "task_0174",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Leaves tile (17, 0) has incorrect peering bit for bottom_side",
+   "tokens": 55820,
+   "duration_s": 934.5363841056824
+  },
+  {
+   "task": "task_0175",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "TileSet must define a custom data layer",
+   "tokens": 75327,
+   "duration_s": 1800.1906125545502
+  },
+  {
+   "task": "task_0176",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 37855,
+   "duration_s": 476.0844566822052
+  },
+  {
+   "task": "task_0177",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Terrain tile (0, 0) has incorrect peering bit for right_side",
+   "tokens": 40290,
+   "duration_s": 436.28995537757874
+  },
+  {
+   "task": "task_0178",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Plant tile (9, 6) must have plant set to true",
+   "tokens": 146122,
+   "duration_s": 1643.1002221107483
+  },
+  {
+   "task": "task_0179",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Cloud tile (13, 7) must use the standard full-tile collision polygon",
+   "tokens": 60050,
+   "duration_s": 610.3287332057953
+  },
+  {
+   "task": "task_0180",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 34429,
+   "duration_s": 251.67430901527405
+  },
+  {
+   "task": "task_0181",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "TileSet must use a valid tile shape and tile size combination for the diagonal tileset",
+   "tokens": 47821,
+   "duration_s": 890.1338953971863
+  },
+  {
+   "task": "task_0182",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Tile (0, 3) must have probability 0.25",
+   "tokens": 33968,
+   "duration_s": 522.4418215751648
+  },
+  {
+   "task": "task_0183",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Ground tile (0, 0) must use the expected rectangular navigation polygon",
+   "tokens": 40141,
+   "duration_s": 607.7103140354156
+  },
+  {
+   "task": "task_0184",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "basic_enemy.tscn must exist",
+   "tokens": 36238,
+   "duration_s": 1218.4210312366486
+  },
+  {
+   "task": "task_0185",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "TileSet must define a terrain set",
+   "tokens": 74826,
+   "duration_s": 1597.893587589264
+  },
+  {
+   "task": "task_0186",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Non-path tile (3, 3) must not be walkable",
+   "tokens": 41562,
+   "duration_s": 485.40566325187683
+  },
+  {
+   "task": "task_0187",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 26636,
+   "duration_s": 370.1122512817383
+  },
+  {
+   "task": "task_0188",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 36127,
+   "duration_s": 296.13343620300293
+  },
+  {
+   "task": "task_0189",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "CODE",
+   "message": "TileSet must define at least 2 custom data layers",
+   "tokens": 199882,
+   "duration_s": 1800.1906206607819
+  },
+  {
+   "task": "task_0190",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Solid tile (16, 0) must use the standard full-tile collision polygon",
+   "tokens": 80424,
+   "duration_s": 1129.1646928787231
+  },
+  {
+   "task": "task_0191",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 23299,
+   "duration_s": 348.81451511383057
+  },
+  {
+   "task": "task_0192",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Emission shape must be box",
+   "tokens": 16117,
+   "duration_s": 170.22128629684448
+  },
+  {
+   "task": "task_0193",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15082,
+   "duration_s": 336.7604787349701
+  },
+  {
+   "task": "task_0194",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "DustParticles GPUParticles2D missing",
+   "tokens": 12984,
+   "duration_s": 128.06218910217285
+  },
+  {
+   "task": "task_0195",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 23326,
+   "duration_s": 486.2294762134552
+  },
+  {
+   "task": "task_0196",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Emission shape must be box",
+   "tokens": 9677,
+   "duration_s": 184.07462644577026
+  },
+  {
+   "task": "task_0197",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Emission shape must be points",
+   "tokens": 19264,
+   "duration_s": 134.5481116771698
+  },
+  {
+   "task": "task_0198",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Emission shape must be directed points",
+   "tokens": 10326,
+   "duration_s": 113.26630306243896
+  },
+  {
+   "task": "task_0199",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Emission shape must be ring",
+   "tokens": 7386,
+   "duration_s": 103.92118525505066
+  },
+  {
+   "task": "task_0200",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 19812,
+   "duration_s": 432.33846497535706
+  },
+  {
+   "task": "task_0201",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27825,
+   "duration_s": 534.1111118793488
+  },
+  {
+   "task": "task_0202",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 17702,
+   "duration_s": 217.11264657974243
+  },
+  {
+   "task": "task_0203",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 21116,
+   "duration_s": 490.5861964225769
+  },
+  {
+   "task": "task_0204",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "SpawnTop must line up with the bottom tip of the branch closest to the water",
+   "tokens": 149104,
+   "duration_s": 1706.146469116211
+  },
+  {
+   "task": "task_0205",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 20954,
+   "duration_s": 299.57077169418335
+  },
+  {
+   "task": "task_0206",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 72451,
+   "duration_s": 976.9149997234344
+  },
+  {
+   "task": "task_0207",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "SpawnTop must line up with the bottom tip of the branch closest to the water",
+   "tokens": 56439,
+   "duration_s": 840.6391816139221
+  },
+  {
+   "task": "task_0208",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 112125,
+   "duration_s": 1135.2251229286194
+  },
+  {
+   "task": "task_0209",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 42820,
+   "duration_s": 754.7513184547424
+  },
+  {
+   "task": "task_0210",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 53970,
+   "duration_s": 508.11665177345276
+  },
+  {
+   "task": "task_0211",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "SpawnTop must line up with the bottom tip of the branch closest to the water",
+   "tokens": 66874,
+   "duration_s": 934.4498407840729
+  },
+  {
+   "task": "task_0212",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "SpawnTop must line up with the bottom tip of the branch closest to the water",
+   "tokens": 105436,
+   "duration_s": 1331.2831757068634
+  },
+  {
+   "task": "task_0213",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 35494,
+   "duration_s": 442.62124371528625
+  },
+  {
+   "task": "task_0214",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 29649,
+   "duration_s": 397.73312997817993
+  },
+  {
+   "task": "task_0215",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Add a Node2D named SpawningPoints under Trap",
+   "tokens": 42299,
+   "duration_s": 525.3589990139008
+  },
+  {
+   "task": "task_0216",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.6869)",
+   "tokens": 22690,
+   "duration_s": 347.3095757961273
+  },
+  {
+   "task": "task_0217",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8517)",
+   "tokens": 24484,
+   "duration_s": 392.9556896686554
+  },
+  {
+   "task": "task_0218",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8943)",
+   "tokens": 21700,
+   "duration_s": 255.60744643211365
+  },
+  {
+   "task": "task_0219",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight5 must tightly cover one of the coins with overlap above 90% (best IoU=0.8915)",
+   "tokens": 26374,
+   "duration_s": 318.4394221305847
+  },
+  {
+   "task": "task_0220",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8658)",
+   "tokens": 33278,
+   "duration_s": 338.8519299030304
+  },
+  {
+   "task": "task_0221",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8973)",
+   "tokens": 36962,
+   "duration_s": 450.9772617816925
+  },
+  {
+   "task": "task_0222",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8150)",
+   "tokens": 22415,
+   "duration_s": 268.2688956260681
+  },
+  {
+   "task": "task_0223",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight3 must tightly cover one of the coins with overlap above 90% (best IoU=0.8398)",
+   "tokens": 45094,
+   "duration_s": 462.44795632362366
+  },
+  {
+   "task": "task_0224",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8922)",
+   "tokens": 39776,
+   "duration_s": 505.64694905281067
+  },
+  {
+   "task": "task_0225",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.6597)",
+   "tokens": 24045,
+   "duration_s": 409.7742612361908
+  },
+  {
+   "task": "task_0226",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "CoinHighlight1 must tightly cover one of the coins with overlap above 90% (best IoU=0.8462)",
+   "tokens": 27252,
+   "duration_s": 462.8873875141144
+  },
+  {
+   "task": "task_0227",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StarHighlights needs a Polygon2D child named StarHighlight",
+   "tokens": 91577,
+   "duration_s": 1800.1270339488983
+  },
+  {
+   "task": "task_0228",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6078)",
+   "tokens": 29847,
+   "duration_s": 444.47260451316833
+  },
+  {
+   "task": "task_0229",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6051)",
+   "tokens": 47580,
+   "duration_s": 769.5010669231415
+  },
+  {
+   "task": "task_0230",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6064)",
+   "tokens": 32390,
+   "duration_s": 697.8668003082275
+  },
+  {
+   "task": "task_0231",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6305)",
+   "tokens": 43653,
+   "duration_s": 503.25867652893066
+  },
+  {
+   "task": "task_0232",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.5863)",
+   "tokens": 39295,
+   "duration_s": 532.213928937912
+  },
+  {
+   "task": "task_0233",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6546)",
+   "tokens": 36274,
+   "duration_s": 619.9803729057312
+  },
+  {
+   "task": "task_0234",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.6171)",
+   "tokens": 42186,
+   "duration_s": 559.8902733325958
+  },
+  {
+   "task": "task_0235",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "StarHighlights needs a Polygon2D child named StarHighlight",
+   "tokens": 71571,
+   "duration_s": 1525.3207466602325
+  },
+  {
+   "task": "task_0236",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must stay inside the platformer image bounds",
+   "tokens": 48985,
+   "duration_s": 743.1323127746582
+  },
+  {
+   "task": "task_0237",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "StarHighlight must cover the star with overlap above 85% (IoU=0.7729)",
+   "tokens": 47930,
+   "duration_s": 801.7231850624084
+  },
+  {
+   "task": "task_0238",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 12497,
+   "duration_s": 228.85972952842712
+  },
+  {
+   "task": "task_0239",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 39871,
+   "duration_s": 504.50008392333984
+  },
+  {
+   "task": "task_0240",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 35462,
+   "duration_s": 408.9029974937439
+  },
+  {
+   "task": "task_0241",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 53640,
+   "duration_s": 899.2037115097046
+  },
+  {
+   "task": "task_0242",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "GemstoneHighlight should use a purple or pink-purple tint",
+   "tokens": 34464,
+   "duration_s": 429.05115509033203
+  },
+  {
+   "task": "task_0243",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 41290,
+   "duration_s": 517.4060871601105
+  },
+  {
+   "task": "task_0244",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "GemstoneHighlight should use a purple or pink-purple tint",
+   "tokens": 29684,
+   "duration_s": 451.61328506469727
+  },
+  {
+   "task": "task_0245",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 42929,
+   "duration_s": 513.82541680336
+  },
+  {
+   "task": "task_0246",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 33914,
+   "duration_s": 472.4404470920563
+  },
+  {
+   "task": "task_0247",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 43948,
+   "duration_s": 776.6567189693451
+  },
+  {
+   "task": "task_0248",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "GemstoneHighlights needs a Polygon2D child named GemstoneHighlight",
+   "tokens": 78660,
+   "duration_s": 929.5652883052826
+  },
+  {
+   "task": "task_0249",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Enemy.target must resolve to Target at runtime",
+   "tokens": 37194,
+   "duration_s": 261.3440194129944
+  },
+  {
+   "task": "task_0250",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 106697,
+   "duration_s": 875.9509553909302
+  },
+  {
+   "task": "task_0251",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 42477,
+   "duration_s": 681.8733534812927
+  },
+  {
+   "task": "task_0252",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Drone focus must resolve to the live Focus node at runtime",
+   "tokens": 33919,
+   "duration_s": 254.31031250953674
+  },
+  {
+   "task": "task_0253",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 74363,
+   "duration_s": 1298.6482861042023
+  },
+  {
+   "task": "task_0254",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Seeker objective must resolve to the live Objective node at runtime",
+   "tokens": 42998,
+   "duration_s": 626.9028203487396
+  },
+  {
+   "task": "task_0255",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Bot checkpoint must resolve to the live Checkpoint node at runtime",
+   "tokens": 72019,
+   "duration_s": 1294.304699897766
+  },
+  {
+   "task": "task_0256",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Project main scene must be res://scenes/game.tscn",
+   "tokens": 35162,
+   "duration_s": 491.63166069984436
+  },
+  {
+   "task": "task_0257",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Project main scene must be res://scenes/game.tscn",
+   "tokens": 18025,
+   "duration_s": 174.04506945610046
+  },
+  {
+   "task": "task_0258",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44297,
+   "duration_s": 1131.6237721443176
+  },
+  {
+   "task": "task_0259",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Project main scene must be res://scenes/game.tscn",
+   "tokens": 35670,
+   "duration_s": 600.2123188972473
+  },
+  {
+   "task": "task_0260",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Project main scene must be res://scenes/game.tscn",
+   "tokens": 13946,
+   "duration_s": 248.94613337516785
+  },
+  {
+   "task": "task_0261",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 15979,
+   "duration_s": 184.59256505966187
+  },
+  {
+   "task": "task_0262",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 43030,
+   "duration_s": 573.544801235199
+  },
+  {
+   "task": "task_0263",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 30.0",
+   "tokens": 53796,
+   "duration_s": 1101.2945127487183
+  },
+  {
+   "task": "task_0264",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 24.0",
+   "tokens": 28154,
+   "duration_s": 475.1750867366791
+  },
+  {
+   "task": "task_0265",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 28.0",
+   "tokens": 30254,
+   "duration_s": 534.7536566257477
+  },
+  {
+   "task": "task_0266",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 32.0",
+   "tokens": 52774,
+   "duration_s": 584.0543074607849
+  },
+  {
+   "task": "task_0267",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 36.0",
+   "tokens": 32137,
+   "duration_s": 635.7696561813354
+  },
+  {
+   "task": "task_0268",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 40.0",
+   "tokens": 49084,
+   "duration_s": 1005.4208986759186
+  },
+  {
+   "task": "task_0269",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 26.0",
+   "tokens": 36869,
+   "duration_s": 734.232362985611
+  },
+  {
+   "task": "task_0270",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 34.0",
+   "tokens": 42277,
+   "duration_s": 1036.003933429718
+  },
+  {
+   "task": "task_0271",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 22.0",
+   "tokens": 43739,
+   "duration_s": 905.9645500183105
+  },
+  {
+   "task": "task_0272",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 38.0",
+   "tokens": 32434,
+   "duration_s": 650.6272184848785
+  },
+  {
+   "task": "task_0273",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "DetectRange.base_range_size must be 27.0",
+   "tokens": 47708,
+   "duration_s": 973.0140788555145
+  },
+  {
+   "task": "task_0274",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 16944,
+   "duration_s": 143.65860295295715
+  },
+  {
+   "task": "task_0275",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 18358,
+   "duration_s": 233.4707314968109
+  },
+  {
+   "task": "task_0276",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 10574,
+   "duration_s": 135.42201352119446
+  },
+  {
+   "task": "task_0277",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 11508,
+   "duration_s": 172.41580986976624
+  },
+  {
+   "task": "task_0278",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 10779,
+   "duration_s": 274.81088042259216
+  },
+  {
+   "task": "task_0279",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 21259,
+   "duration_s": 244.45605039596558
+  },
+  {
+   "task": "task_0280",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 13839,
+   "duration_s": 240.61526894569397
+  },
+  {
+   "task": "task_0281",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "CardStateMachine must enter CardBaseState on ready",
+   "tokens": 39243,
+   "duration_s": 829.368378162384
+  },
+  {
+   "task": "task_0282",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Mouse motion from the clicked state must enter the dragging state",
+   "tokens": 70417,
+   "duration_s": 1432.4496042728424
+  },
+  {
+   "task": "task_0283",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the card_layer group",
+   "tokens": 72563,
+   "duration_s": 787.0277149677277
+  },
+  {
+   "task": "task_0284",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Mouse motion from the clicked state must enter the dragging state",
+   "tokens": 47648,
+   "duration_s": 684.0311872959137
+  },
+  {
+   "task": "task_0285",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the float_layer group",
+   "tokens": 43425,
+   "duration_s": 859.2868232727051
+  },
+  {
+   "task": "task_0286",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Mouse motion from the clicked state must enter the dragging state",
+   "tokens": 49667,
+   "duration_s": 816.2822935581207
+  },
+  {
+   "task": "task_0287",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the ui_drag_layer group",
+   "tokens": 66502,
+   "duration_s": 1242.3355612754822
+  },
+  {
+   "task": "task_0288",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the hud_drag_layer group",
+   "tokens": 64464,
+   "duration_s": 1369.5372710227966
+  },
+  {
+   "task": "task_0289",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the screen_layer group",
+   "tokens": 43436,
+   "duration_s": 739.8885607719421
+  },
+  {
+   "task": "task_0290",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the top_ui_layer group",
+   "tokens": 42869,
+   "duration_s": 598.7838726043701
+  },
+  {
+   "task": "task_0291",
+   "passed_by": 0,
+   "of": 3,
+   "mode": "SCENE",
+   "message": "Dragging state must reparent the card into the drag_overlay group",
+   "tokens": 103455,
+   "duration_s": 1296.1033499240875
+  },
+  {
+   "task": "task_0292",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "UNKNOWN",
+   "message": "Cancelled drags must restore the card's original HandTray slot",
+   "tokens": 27845,
+   "duration_s": 395.6589503288269
+  },
+  {
+   "task": "task_0293",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 22007,
+   "duration_s": 158.40929102897644
+  },
+  {
+   "task": "task_0294",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 20005,
+   "duration_s": 197.14403986930847
+  },
+  {
+   "task": "task_0295",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 120816,
+   "duration_s": 861.0934255123138
+  },
+  {
+   "task": "task_0296",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 85969,
+   "duration_s": 1348.8285074234009
+  },
+  {
+   "task": "task_0297",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 29947,
+   "duration_s": 677.7581186294556
+  },
+  {
+   "task": "task_0298",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 71923,
+   "duration_s": 1297.7216620445251
+  },
+  {
+   "task": "task_0299",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27278,
+   "duration_s": 440.4761612415314
+  },
+  {
+   "task": "task_0300",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 26601,
+   "duration_s": 405.85561203956604
+  },
+  {
+   "task": "task_0301",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 46405,
+   "duration_s": 1133.8821341991425
+  },
+  {
+   "task": "task_0302",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 31700,
+   "duration_s": 542.4653851985931
+  },
+  {
+   "task": "task_0303",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Enable hide-on-contact collision mode for Rain",
+   "tokens": 45263,
+   "duration_s": 755.3937873840332
+  },
+  {
+   "task": "task_0304",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 44084,
+   "duration_s": 1108.3523380756378
+  },
+  {
+   "task": "task_0305",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 102823,
+   "duration_s": 1220.7116303443909
+  },
+  {
+   "task": "task_0306",
+   "passed_by": 1,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 31207,
+   "duration_s": 793.9039242267609
+  },
+  {
+   "task": "task_0307",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 43452,
+   "duration_s": 447.09839725494385
+  },
+  {
+   "task": "task_0308",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 39359,
+   "duration_s": 555.7766695022583
+  },
+  {
+   "task": "task_0309",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 39838,
+   "duration_s": 1263.511970281601
+  },
+  {
+   "task": "task_0310",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Main must contain a GPUParticles2D named Splash",
+   "tokens": 72569,
+   "duration_s": 1045.9736213684082
+  },
+  {
+   "task": "task_0311",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission shape should be Box",
+   "tokens": 22870,
+   "duration_s": 557.7579822540283
+  },
+  {
+   "task": "task_0312",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain emission box must span roughly 900 pixels to each side",
+   "tokens": 63331,
+   "duration_s": 995.0269114971161
+  },
+  {
+   "task": "task_0313",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Rain visibility rect should start around (-900,-200)",
+   "tokens": 41768,
+   "duration_s": 577.2338554859161
+  },
+  {
+   "task": "task_0314",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44743,
+   "duration_s": 340.41155886650085
+  },
+  {
+   "task": "task_0315",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 35574,
+   "duration_s": 387.97640013694763
+  },
+  {
+   "task": "task_0316",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 45143,
+   "duration_s": 308.1067268848419
+  },
+  {
+   "task": "task_0317",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Enable trails on SmokeStylized",
+   "tokens": 36840,
+   "duration_s": 573.4068357944489
+  },
+  {
+   "task": "task_0318",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 47710,
+   "duration_s": 589.0613882541656
+  },
+  {
+   "task": "task_0319",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 25902,
+   "duration_s": 338.83893847465515
+  },
+  {
+   "task": "task_0320",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Smoke needs -10 to 10 directional sway",
+   "tokens": 40076,
+   "duration_s": 565.8225610256195
+  },
+  {
+   "task": "task_0321",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 33538,
+   "duration_s": 649.7457880973816
+  },
+  {
+   "task": "task_0322",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 25102,
+   "duration_s": 293.7402837276459
+  },
+  {
+   "task": "task_0323",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 29283,
+   "duration_s": 257.0173614025116
+  },
+  {
+   "task": "task_0324",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 23389,
+   "duration_s": 231.78204703330994
+  },
+  {
+   "task": "task_0325",
+   "passed_by": 2,
+   "of": 3,
+   "mode": "VISUAL",
+   "message": "Smoke needs -25 to 25 directional sway",
+   "tokens": 33907,
+   "duration_s": 473.3262321949005
+  },
+  {
+   "task": "task_0326",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 44115,
+   "duration_s": 496.46048069000244
+  },
+  {
+   "task": "task_0327",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 35887,
+   "duration_s": 460.82716512680054
+  },
+  {
+   "task": "task_0328",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 22485,
+   "duration_s": 243.68086218833923
+  },
+  {
+   "task": "task_0329",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 25210,
+   "duration_s": 232.18592500686646
+  },
+  {
+   "task": "task_0330",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 25709,
+   "duration_s": 278.3557195663452
+  },
+  {
+   "task": "task_0331",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 27166,
+   "duration_s": 269.22554755210876
+  },
+  {
+   "task": "task_0332",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 17591,
+   "duration_s": 336.8470902442932
+  },
+  {
+   "task": "task_0333",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 21292,
+   "duration_s": 297.9706163406372
+  },
+  {
+   "task": "task_0334",
+   "passed_by": 3,
+   "of": 3,
+   "mode": "PASSED",
+   "message": "",
+   "tokens": 23894,
+   "duration_s": 307.94869923591614
+  }
+ ]
+}

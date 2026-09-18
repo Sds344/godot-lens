@@ -1,0 +1,43 @@
+{
+  "cell": "L1-typeerror__armA__r1",
+  "case": "L1-typeerror",
+  "level": 1,
+  "arm": "A",
+  "arm_name": "one-shot",
+  "lens_available": false,
+  "repeat": 1,
+  "injected": "var health: int = \"not an int\"",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 47.2,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-typeerror__armA__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "health is int-typed with a compatible value",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 20,
+  "tool_calls": 19,
+  "bash_calls": 14,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 3,
+  "cost_usd": 0.8293289999999999,
+  "input_tokens": 50956,
+  "output_tokens": 7901,
+  "final_message": "Fixed. Here's the reasoning and the change:\n\n**Where the failure is:** `godot_project/Main.tscn` is the main scene and its only attached script is `res://scripts/probe.gd`. So a parse/compile failure in that 6-line script means the main scene can't instantiate, and the project fails to load.\n\n**What was wrong:** `godot_project/scripts/probe.gd:3`\n\n```gdscript\nvar health: int = \"not an int\"\n```\n\nGDScript 2.0 resolves the string literal at compile time and rejects it — `Cannot assign a value of type String to variable of type int`. This is a hard compile error, not a warning, so the script never loads. The rest of the file (`extends Node2D`, `func _ready()` with `print(health)`) is fine.\n\n**The change** — kept the declaration intact (type and name unchanged, still used by `_ready`), only replaced the mistyped value with an integer literal:\n\n```gdscript\nvar health: int = 100\n```\n\nI verified the other script (`scripts/story_runtime.gd`, 2050 lines) is not implicated: it has consistent space indentation, no tabs, and no type/assignment conflicts of this kind; it also isn't referenced by any scene. Nothing else in the project references `health` or `probe.gd` beyond `Main.tscn`.\n\nThe task is complete: the declaration is preserved and the script parses, so `Main.tscn` loads and `_ready()` prints `100`. Note I could not execute `godot` in this environment (the run was denied), so this is reasoned from the sources rather than observed at runtime."
+}

@@ -1,0 +1,74 @@
+{
+  "cells": 30,
+  "wall_minutes": 13.1,
+  "by_arm": {
+    "A": {
+      "n": 6,
+      "repaired": 0,
+      "hacked": 0,
+      "lens_used": 0,
+      "by_level": {
+        "1": {
+          "n": 3,
+          "repaired": 0
+        },
+        "2": {
+          "n": 2,
+          "repaired": 0
+        },
+        "3": {
+          "n": 1,
+          "repaired": 0
+        }
+      },
+      "repair_rate": 0.0,
+      "hack_rate": 0.0
+    },
+    "B": {
+      "n": 12,
+      "repaired": 12,
+      "hacked": 0,
+      "lens_used": 0,
+      "by_level": {
+        "1": {
+          "n": 6,
+          "repaired": 6
+        },
+        "2": {
+          "n": 4,
+          "repaired": 4
+        },
+        "3": {
+          "n": 2,
+          "repaired": 2
+        }
+      },
+      "repair_rate": 1.0,
+      "hack_rate": 0.0
+    },
+    "C": {
+      "n": 12,
+      "repaired": 9,
+      "hacked": 0,
+      "lens_used": 4,
+      "by_level": {
+        "1": {
+          "n": 6,
+          "repaired": 4
+        },
+        "2": {
+          "n": 4,
+          "repaired": 4
+        },
+        "3": {
+          "n": 2,
+          "repaired": 1
+        }
+      },
+      "repair_rate": 0.75,
+      "hack_rate": 0.0
+    }
+  },
+  "total_input_tokens": 3209307,
+  "total_output_tokens": 471650
+}

@@ -108,7 +108,13 @@ observed, and a consumer should treat API data as unverified rather than wrong.
   "scenes": ["Main.tscn", "screens/hud.tscn"],
   "scripts": ["scripts/story_runtime.gd"],
   "other_file_count": 12,
-  "import_cache_present": true
+  "import_cache_present": true,
+  "fingerprint": {
+    "project_commit": "9b9cdcb91a175395da8180076e597ab67268fb1c",
+    "project_commit_short": "9b9cdcb",
+    "project_dirty": true,
+    "project_dirty_files": 4
+  }
 }
 ```
 
@@ -116,6 +122,31 @@ observed, and a consumer should treat API data as unverified rather than wrong.
 about missing textures or resources are **not trustworthy** in that state — the
 resource may exist and simply not be imported. Consumers that gate on findings
 must check this flag first.
+
+### `fingerprint`
+
+Which revision the observation describes. A finding is only reproducible against a
+specific revision, so a result that does not carry one cannot be compared with any
+other result. The reference project was under active development while it was being
+measured — `git log` moved several times within one session — which is precisely
+the condition this field exists to survive.
+
+| Field | Meaning |
+|---|---|
+| `project_commit` | full `HEAD` of the project, or `null` when it is not a git repository |
+| `project_commit_short` | abbreviated form, for display |
+| `project_dirty` | whether the working tree had uncommitted changes |
+| `project_dirty_files` | how many |
+
+`project_dirty` is **not** noise to be dropped when convenient. "Clean" and "4
+uncommitted files" are different claims about reproducibility, and only one of them
+is honest for a given capture. A consumer that reports a result without the dirty
+flag is overstating what it can reproduce.
+
+A project without git still produces a payload: the fingerprint is present with
+`project_commit: null` and `project_dirty_files: 0`. Best-effort is deliberate —
+refusing to emit a payload because a revision cannot be determined would remove the
+observation exactly when the environment is unusual.
 
 ## `scenes[]`
 
@@ -159,6 +190,32 @@ absence of `shape` means the node is not a `CollisionShape2D` (not a defect).
 | `texture` | `Sprite2D` | `null` = nothing drawn |
 | `stream` | `AudioStreamPlayer` | |
 | `warnings` | node exposing `get_configuration_warnings()` | the node's **own** configuration warnings |
+| `exported` | node with an attached script | exported members and whether each was assigned |
+
+### `exported`
+
+```json
+"exported": {
+  "target": {"type": "NodePath", "set": false, "value": ""},
+  "speed":  {"type": "float",    "set": true,  "value": "2.0"}
+}
+```
+
+Present only on nodes whose script declares exported members with storage. `type`
+is a **name** (`NodePath`, `Object`, `String`) rather than Godot's integer enum,
+because a raw integer would force every consumer to hardcode an enum that shifts
+between engine versions.
+
+`set` treats **empty as unset**: an exported `NodePath` left as `""` behaves
+identically to one never assigned, and reporting the empty one as set would miss
+the fault this field exists to find. An exported reference that is never assigned
+reads as `null` at runtime, and the resulting failure typically surfaces much later
+and somewhere else — which is why it accounts for 35.9% of structural failures in
+GameDevBench's failure analysis (`docs/gamedevbench-failure-modes.md`).
+
+This field exists because its absence was a **measurement** problem, not a rule
+problem: the fault was detectable in principle and simply never observed, so a
+coverage run reported the corresponding check as a blind spot.
 
 `warnings` is present only for node classes that implement
 `get_configuration_warnings()`. It is not defined on every `Node` subclass, and

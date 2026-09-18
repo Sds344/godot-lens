@@ -1,0 +1,43 @@
+{
+  "cell": "L2-unset-export__armB__r2",
+  "case": "L2-unset-export",
+  "level": 2,
+  "arm": "B",
+  "arm_name": "native",
+  "lens_available": false,
+  "repeat": 2,
+  "injected": "@export var target: NodePath declared with no assignment",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 19.9,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L2-unset-export__armB__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": false,
+  "repaired": true,
+  "detail": "target is assigned to 'Other', which exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 15,
+  "tool_calls": 14,
+  "bash_calls": 9,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 2,
+  "cost_usd": 0.296082,
+  "input_tokens": 25012,
+  "output_tokens": 3070,
+  "final_message": "Fixed and verified.\n\n**The problem:** `scripts/probe.gd` declares `@export var target: NodePath`, but `Main.tscn` only set `speed`, leaving `target` empty. `_ready()` printed `get_node_or_null(target)` → `<Object#null>`.\n\n**The change** — one line in `godot_project/Main.tscn`, wiring the export to the `Other` node already present in the scene:\n\n```\n script = ExtResource(\"1_p\")\n+target = NodePath(\"Other\")\n speed = 2.0\n```\n\n**Verification** — `godot --headless --quit-after 60` now prints:\n\n```\nOther:<Node2D#24897389931>\n```\n\nA real node instead of null, with no engine errors. The export is kept intact (`@export var target: NodePath` is unchanged) and `speed` still works as before, so the feature remains. A project-wide grep confirms these are the only exports in the codebase — no other unwired ones."
+}

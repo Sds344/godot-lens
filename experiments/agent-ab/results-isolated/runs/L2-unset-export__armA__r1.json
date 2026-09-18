@@ -1,0 +1,43 @@
+{
+  "cell": "L2-unset-export__armA__r1",
+  "case": "L2-unset-export",
+  "level": 2,
+  "arm": "A",
+  "arm_name": "one-shot",
+  "lens_available": false,
+  "repeat": 1,
+  "injected": "@export var target: NodePath declared with no assignment",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 29.5,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L2-unset-export__armA__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": false,
+  "repaired": true,
+  "detail": "target is assigned to 'Other', which exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 17,
+  "tool_calls": 16,
+  "bash_calls": 9,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 5,
+  "cost_usd": 0.42083799999999993,
+  "input_tokens": 27274,
+  "output_tokens": 5332,
+  "final_message": "Godot execution requires approval in this environment (as the task noted, I don't get a verification run) — so I reasoned statically.\n\n**The bug:** `scripts/probe.gd` declares `@export var target: NodePath` and `_ready()` prints `get_node_or_null(target)`. `Main.tscn` attached the script to the `Main` root but never assigned `target`, so the empty `NodePath` resolved to `null`. The scene already contains a sibling-candidate node named `Other` (Node2D) that was sitting unused.\n\n**The fix** — `godot_project/Main.tscn:7`:\n\n```\n[node name=\"Main\" type=\"Node2D\"]\nscript = ExtResource(\"1_p\")\ntarget = NodePath(\"Other\")\nspeed = 2.0\n```\n\nThe path is relative to the node that owns the property (the `Main` root), so `NodePath(\"Other\")` resolves to its child `Other` — the only node in the main scene. The export is kept intact, so the node-picker feature and its `get_node_or_null` lookup still work; it now returns a real node instead of `null`. `probe.gd` is untouched."
+}

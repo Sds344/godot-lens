@@ -94,22 +94,16 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_CACHE_HOME" 2>/dev/null
 cd "$PROJECT" || { echo "FATAL: no project at $PROJECT" >&2; exit 2; }
 
 # --- One-time asset import ----------------------------------------------------
-# A freshly generated project has its asset files on disk but nothing imported,
-# and in that state `ResourceLoader.exists("res://assets/x.png")` is FALSE for a
-# file that is plainly present on disk. A game that loads textures by path then
-# reports "missing resource" for assets it actually has, which reads as a content
-# bug in the project rather than a missing build step.
+# In a project whose assets have never been imported, `ResourceLoader.exists()`
+# is FALSE for a file that is plainly present on disk, so a game that loads
+# textures by path reports "missing resource" for assets it actually has. That
+# reads as content loss when the real situation is a missing build step.
 #
-# Importing here fixes that for every caller at once, and is a no-op on an
-# already-imported project.
-if [[ ! -d ".godot/imported" ]]; then
-  import_log="$(timeout 600 "$GODOT" --headless --import 2>&1)"
-  if [[ ! -d ".godot/imported" ]]; then
-    printf 'WARNING: asset import produced no .godot/imported directory.\n'
-    printf 'Textures loaded by path may report as missing. Last import output:\n'
-    printf '%s\n' "$import_log" | tail -5
-  fi
-fi
+# The import pass lives in a shared script rather than here, because
+# godot_context.py and godot_scene.sh have the identical blind spot and
+# previously did not run it — which made `godot_scene.sh --runtime` report every
+# sprite's texture as null. One implementation keeps the three from drifting.
+bash "$KIT_ROOT/tools/ensure_imported.sh" || true
 
 # Godot's own noise that is never a project defect.
 NOISE='godot2026|dir_access|Failed to open .user://logs|editor_settings|Error saving editor settings'
@@ -206,6 +200,18 @@ run_scene() {
 # The only layer that catches logic errors, null derefs and push_warning.
 run_runtime() {
   hr "LAYER 3/3  runtime (boot main scene, $FRAMES frames)"
+
+  # Check the main scene BEFORE booting. Godot's run path raises an OS alert when
+  # there is nothing runnable, and on Linux that is a `zenity` dialog on the
+  # user's desktop — `--headless` does not suppress it. A checker that puts a
+  # modal dialog on someone's screen as a side effect of checking for bugs is not
+  # acceptable, so the condition is reported here instead of being triggered.
+  local preflight
+  if ! preflight="$(bash "$KIT_ROOT/tools/main_scene_check.sh")"; then
+    add_finding "runtime" "cannot boot: $preflight"
+    return
+  fi
+
   local out
   out="$(timeout 180 "$GODOT" --headless --quit-after "$FRAMES" 2>&1 | strip_noise)"
   # WARNING is included on purpose: renpy2godot's own push_warning calls are

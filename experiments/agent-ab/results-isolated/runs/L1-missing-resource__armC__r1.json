@@ -1,0 +1,50 @@
+{
+  "cell": "L1-missing-resource__armC__r1",
+  "case": "L1-missing-resource",
+  "level": 1,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 1,
+  "injected": "Broken.tscn references a script that is not on disk",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 123.0,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-missing-resource__armC__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the referenced resource 'scripts/story_runtime.gd' now exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": false,
+  "false_claim": false,
+  "turns": 37,
+  "tool_calls": 36,
+  "bash_calls": 28,
+  "used_lens": true,
+  "lens_invocations": [
+    "GODOT_PROJECT=$(pwd)/godot_project timeout 120 ./godot-lens diagnose 2>&1 | head -80",
+    "GODOT_PROJECT=$(pwd)/godot_project timeout 120 ./godot-lens validate 2>&1 | head -80",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r1 && GODOT_PROJECT=$(pwd)/godot_project timeout 180 ./godot-lens validate 2>&1 | tail -30",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r1 && GODOT_PROJECT=$(pwd)/godot_project timeout 180 ./godot-lens diagnose 2>&1 | head -40",
+    "GODOT_PROJECT=$(pwd)/godot_project timeout 180 ./godot-lens inspect --agent 2>&1 | head -40; rm -f /tmp/test_repoint.tscn /tmp/Broken.tscn.orig",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r1 && GODOT_PROJECT=$(pwd)/godot_project timeout 180 ./godot-lens validate 2>&1 | tail -12 && echo \"=== direct scene "
+  ],
+  "godot_invocations": 15,
+  "cost_usd": 1.35608,
+  "input_tokens": 62091,
+  "output_tokens": 16161,
+  "final_message": "```\n[ext_resource type=\"Script\" path=\"res://scripts/story_runtime.gd\" id=\"1_x\"]\n\n[node name=\"Broken\" type=\"Control\"]\nscript = ExtResource(\"1_x\")\n```\n\nI did not create a stub at the missing path: the filename `does_not_exist.gd` is itself the tell that the reference, not the target, is the fault, and an empty stub would have silenced the error while leaving the scene doing nothing.\n\n## Evidence it genuinely works — not just a silenced message\n\n- `godot --headless --quit-after 60 --scene res://Broken.tscn` → exits clean, no output beyond the engine banner.\n- The scene is **not** merely loadable, it runs: it now builds 6 nodes at runtime, same as `Main.tscn`. Before, the lens reported `SCENE_EMPTY_RUNTIME` (\"builds none at runtime\") for it; that warning is gone.\n- `godot-lens validate` → **CLEAN — no findings** across all three layers (static parse, headless scene load, 180-frame main-scene boot).\n- `godot-lens inspect --agent` → `ok: True`, `res://Broken.tscn: static 0 -> runtime 6 (Control)`.\n- Re-ran `godot --headless --import` so no stale reference lingers in Godot's editor cache; `grep -rn does_not_exist godot_project/` is now empty.\n\nOne note on process: while checking the cache I ran `godot --headless --import` from the repo root instead of `godot_project/`, which made Godot try to run a nonexistent project and emit a zenity/display warning. That wrote nothing outside `godot_project/` — the repo root is unchanged, and I re-ran the import correctly from inside the project."
+}

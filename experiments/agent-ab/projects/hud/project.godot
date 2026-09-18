@@ -1,0 +1,8 @@
+; Engine configuration file.
+[application]
+config/name="HudLab"
+run/main_scene="res://Main.tscn"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720

@@ -182,3 +182,89 @@ def project(required=True):
             "    export GODOT_PROJECT=/path/to/project\n"
         )
     return found
+
+
+def state_dir_env():
+    """Environment that redirects Godot's XDG homes somewhere writable.
+
+    Godot aborts with a bare `signal 11` when it cannot write its config and data
+    directories, and that failure looks like an engine bug rather than a
+    permissions problem (LESSONS.md §4). Every entry point must therefore set
+    these, and this is the single implementation they share.
+
+    Paths are made absolute: a *relative* `XDG_DATA_HOME` is silently ignored by
+    Godot, which then falls back to `$HOME`, aborts with SIGABRT, and produces no
+    parseable output at all — a state an earlier grader misread as "clean".
+
+    Returns None when no writable location is found, so callers can explain the
+    problem instead of handing Godot a directory it will reject.
+    """
+    base = state_dir()
+    if base is None:
+        return None
+    home = os.path.abspath(os.path.join(base, "godot_home"))
+    env = {
+        "XDG_CONFIG_HOME": os.path.join(home, "config"),
+        "XDG_DATA_HOME": os.path.join(home, "data"),
+        "XDG_CACHE_HOME": os.path.join(home, "cache"),
+    }
+    for path in env.values():
+        try:
+            os.makedirs(path, exist_ok=True)
+        except OSError:
+            return None
+    return env
+
+
+def state_dir(create=True):
+    """A writable directory for Godot's XDG homes and the API dump.
+
+    Mirrors `state_dir()` in `tools/project_path.py`, which the shell collectors
+    call. Duplicated rather than imported because that module is resolved by path
+    — the shell scripts need it that way — and importing it here would couple the
+    package to a location the package is itself responsible for discovering.
+
+    Order: `$GODOT_LENS_HOME` (or legacy `$GODOT_KIT_HOME`), then `<kit>/.tooling`
+    when writable, then a user cache directory. Returns None when none works.
+    """
+    kit = kit_root()
+    candidates = []
+    for var in ("GODOT_LENS_HOME", "GODOT_KIT_HOME"):
+        env = os.environ.get(var)
+        if env:
+            candidates.append(env)
+            break
+    if kit:
+        candidates.append(os.path.join(kit, ".tooling"))
+    candidates.append(os.path.join(
+        os.environ.get("XDG_CACHE_HOME",
+                       os.path.join(os.path.expanduser("~"), ".cache")),
+        "godot-lens"))
+
+    for path in candidates:
+        if create:
+            try:
+                os.makedirs(path, exist_ok=True)
+            except OSError:
+                continue
+        if _writable(path):
+            return os.path.abspath(path)
+    return None
+
+
+def _writable(path):
+    """Writability verified by actually writing.
+
+    `os.access(..., W_OK)` is not trustworthy — on overlay mounts and under
+    restrictive sandboxes it reports True for a directory that rejects writes.
+    Trusting it produced a state directory Godot could not use, and the resulting
+    failure was a bare signal 11. A real write either works or it does not.
+    """
+    probe = os.path.join(path, f".writable-probe-{os.getpid()}")
+    try:
+        with open(probe, "w"):
+            pass
+        os.unlink(probe)
+        return True
+    except OSError:
+        return False

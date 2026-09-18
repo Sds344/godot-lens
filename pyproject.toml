@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "godot-lens"
 version = "0.1.0"
-description = "Observation infrastructure for game-development agents: engine state an agent can read, act on, and verify."
+description = "Runtime observability for AI coding agents on Godot: headless engine state, diagnostics, and graders that reject hacks. Reports what the engine did, never what it should have done."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }

@@ -1,0 +1,43 @@
+{
+  "cell": "L1-missing-resource__armA__r1",
+  "case": "L1-missing-resource",
+  "level": 1,
+  "arm": "A",
+  "arm_name": "one-shot",
+  "lens_available": false,
+  "repeat": 1,
+  "injected": "Broken.tscn references a script that is not on disk",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 159.7,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-missing-resource__armA__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the referenced resource 'scripts/story_runtime.gd' now exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 28,
+  "tool_calls": 27,
+  "bash_calls": 12,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 3,
+  "cost_usd": 1.6365450000000001,
+  "input_tokens": 64594,
+  "output_tokens": 34431,
+  "final_message": "Done. Every `ext_resource` in the project now resolves to a file that exists:\n\n- `Broken.tscn` → `res://scripts/story_runtime.gd` (was `res://scripts/does_not_exist.gd`, which exists nowhere in the project)\n- `Main.tscn` → same script (already valid)\n- `VisualNovelPreview.tscn` → `res://assets/images/bg_study_day.png` (already valid)\n\nWhat I changed in `godot_project/Broken.tscn`, and why:\n\n1. **Repointed the reference** to `res://scripts/story_runtime.gd` — the project's only script, and the same one `Main.tscn` uses. This is what makes the scene's reference valid instead of dangling.\n2. **Changed the root node type from `Node2D` to `Control`.** `story_runtime.gd` is `extends Control`; Godot refuses to assign a script to a node whose native class isn't in the script's inheritance chain, so leaving the root as `Node2D` would have swapped a load failure for an instantiation error and the script would never attach. `Control` is the type the script actually matches, and matches the pattern of the project's other scripted scene.\n\nI did not delete the script reference, and no other scene or data file was touched. Note I could not execute Godot in this environment (the binary is outside the session's allowed paths and running it requires approval), so this is reasoned from the sources rather than verified by a run."
+}

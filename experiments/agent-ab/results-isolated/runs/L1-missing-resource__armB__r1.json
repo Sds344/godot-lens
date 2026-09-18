@@ -1,0 +1,43 @@
+{
+  "cell": "L1-missing-resource__armB__r1",
+  "case": "L1-missing-resource",
+  "level": 1,
+  "arm": "B",
+  "arm_name": "native",
+  "lens_available": false,
+  "repeat": 1,
+  "injected": "Broken.tscn references a script that is not on disk",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 53.2,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-missing-resource__armB__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the referenced resource 'scripts/story_runtime.gd' now exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 22,
+  "tool_calls": 21,
+  "bash_calls": 17,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 13,
+  "cost_usd": 0.541323,
+  "input_tokens": 27498,
+  "output_tokens": 7201,
+  "final_message": "exist.gd.\n```\n\n## The fix\n\nTwo edits to `Broken.tscn`, both required for the scene to actually load:\n\n1. **`Broken.tscn:3`** — repointed the script reference from the non-existent `res://scripts/does_not_exist.gd` to the project's real script, `res://scripts/story_runtime.gd`.\n2. **`Broken.tscn:5`** — changed the root node from `Node2D` to `Control`.\n\nThe second edit isn't cosmetic: `story_runtime.gd` opens with `extends Control`, so after fixing the path alone Godot still refused the scene with `ERROR: Script inherits from native type 'Control', so it can't be assigned to an object of type 'Node2D'.` The scene genuinely did not load. `Control` matches the script and is consistent with how `Main.tscn` uses the same script on a `Control` root.\n\n## Verification\n\n- `godot --headless --quit-after 5 Broken.tscn` → clean, no output; the scene loads and instantiates.\n- All three scenes (`Broken.tscn`, `Main.tscn`, `VisualNovelPreview.tscn`) run individually with no errors.\n- `godot --headless --quit-after 60` on the project → exit 0, clean.\n- Every `ext_resource` path in the project now resolves to an existing file.\n\nOne note on the earlier run: it also showed `Unable to open file: res://.godot/imported/bg_room.svg-....ctex`. That was not a broken reference — the project had no `.godot/` import cache at all, so the `.import` sidecars pointed at files that had never been generated. `godot --headless --import` resolved it; no source file was changed. That was setup, not a code defect."
+}

@@ -1,0 +1,66 @@
+{
+  "count": 10,
+  "note": "source spans the runtime executed, as reported by the IR node it processed; one entry per distinct executed position",
+  "spans": [
+    {
+      "kind": "scene",
+      "label": "start",
+      "line": 11,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "play_audio",
+      "label": "start",
+      "line": 12,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "show",
+      "label": "start",
+      "line": 13,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "dialogue",
+      "label": "start",
+      "line": 14,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "narration",
+      "label": "start",
+      "line": 15,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "set_variable",
+      "label": "start",
+      "line": 16,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "set_variable",
+      "label": "start",
+      "line": 17,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "if",
+      "label": "start",
+      "line": 18,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "dialogue",
+      "label": "start",
+      "line": 19,
+      "path": "script.rpy"
+    },
+    {
+      "kind": "menu",
+      "label": "start",
+      "line": 24,
+      "path": "script.rpy"
+    }
+  ]
+}

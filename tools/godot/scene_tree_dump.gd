@@ -90,10 +90,64 @@ func _node_to_dict(n: Node, depth: int) -> Dictionary:
 		"children": children,
 	}
 
+	# --- Stable identity for programmatic consumers (L3) -----------------------
+	# A node the engine created from code has a generated name such as
+	# `@Sprite2D@6`, and that name is NOT stable across runs: it depends on how
+	# many nodes happened to be created before it. Readable for a person, useless
+	# as a key for a program — a consumer tracking "@Sprite2D@6" between runs is
+	# tracking whatever node landed there first.
+	#
+	# `owner_path` answers "which node in the scene owns this?", which is what
+	# makes a node addressable by path rather than by creation order.
+	# `scene_file_path` answers "which scene should I edit?", and an empty value is
+	# itself informative: a generated sprite belongs to code, not to content, so
+	# there is no .tscn to open. `generated_name` is the machine-checkable form of
+	# "the engine named this, so it was built by code rather than declared".
+	d["node_path"] = String(n.get_path())
+	if n.owner != null:
+		d["owner_path"] = String(n.owner.get_path())
+	var scene_file: String = ""
+	if n.scene_file_path != "":
+		scene_file = String(n.scene_file_path)
+	elif n.owner != null and n.owner.scene_file_path != "":
+		scene_file = String(n.owner.scene_file_path)
+	d["scene_file_path"] = scene_file
+	d["generated_name"] = String(n.name).begins_with("@")
+
 	# Script attached? This is the code<->scene link an agent needs.
 	var scr: Script = n.get_script()
 	if scr != null:
 		d["script"] = scr.resource_path
+		# Exported members and whether they were assigned.
+		#
+		# This closes an observation gap rather than adding a rule. An exported
+		# `NodePath` or resource reference that is never assigned reads as null at
+		# runtime, and the resulting failure surfaces much later and somewhere else
+		# — which is why it accounts for 35.9% of structural failures in
+		# GameDevBench's failure analysis. It was undetectable here not because the
+		# check was hard but because the exporter's value was never observed at all.
+		#
+		# Only exported properties with storage are reported, so the payload stays
+		# about the scene rather than becoming a script dump.
+		var exported := {}
+		for prop in n.get_property_list():
+			if not (int(prop.get("usage", 0)) & PROPERTY_USAGE_SCRIPT_VARIABLE):
+				continue
+			if not (int(prop.get("usage", 0)) & PROPERTY_USAGE_STORAGE):
+				continue
+			if str(prop.get("name", "")).begins_with("_"):
+				continue
+			var pname := str(prop.get("name", ""))
+			var value = n.get(pname)
+			exported[pname] = {
+				"type": _type_name(int(prop.get("type", 0))),
+				# A reference is "set" when it actually points at something. An
+				# empty NodePath, a null Object and an empty string are all unset.
+				"set": _is_set(value),
+				"value": _short_value(value),
+			}
+		if not exported.is_empty():
+			d["exported"] = exported
 
 	# Only for nodes that have them, to keep the payload small.
 	if n is Node2D:
@@ -102,6 +156,18 @@ func _node_to_dict(n: Node, depth: int) -> Dictionary:
 		var c := n as Control
 		d["visible"] = c.visible
 		d["anchors_preset"] = c.anchors_preset
+		# Position AND size, because neither answers a layout question alone.
+		#
+		# `size` was reported but the computed position was not, which made one
+		# whole class of fault unobservable: whether a widget ends up inside the
+		# viewport, or overlapping a sibling, depends on where the layout engine
+		# put it. GameDevBench attributes 19.9% of failures to "incorrect UI
+		# layout, spacing, sizing, or anchoring", and the numeric half of that is
+		# decidable from a rectangle — but only if both halves are present.
+		#
+		# The position is the layout result, not the value written in the .tscn:
+		# containers assign it at run time, so it does not exist in any file.
+		d["position"] = _v(c.position)
 		d["size"] = _v(c.size)
 	if n is CanvasItem:
 		d["visible"] = (n as CanvasItem).visible
@@ -147,3 +213,41 @@ func _node_to_dict(n: Node, depth: int) -> Dictionary:
 
 func _v(v: Variant) -> String:
 	return str(v)
+
+
+func _type_name(t: int) -> String:
+	"""Variant type as a name, so a consumer can filter without a lookup table.
+
+	A raw integer would force every consumer to hardcode Godot's enum, and that
+	enum is exactly the kind of detail that shifts between engine versions.
+	"""
+	var names := {
+		TYPE_NIL: "Nil", TYPE_BOOL: "bool", TYPE_INT: "int", TYPE_FLOAT: "float",
+		TYPE_STRING: "String", TYPE_VECTOR2: "Vector2", TYPE_VECTOR3: "Vector3",
+		TYPE_NODE_PATH: "NodePath", TYPE_OBJECT: "Object", TYPE_ARRAY: "Array",
+		TYPE_DICTIONARY: "Dictionary", TYPE_COLOR: "Color", TYPE_RID: "RID",
+	}
+	return names.get(t, "Type" + str(t))
+
+
+func _is_set(value: Variant) -> bool:
+	"""Whether a reference actually points at something.
+
+	Deliberately treats empty-as-unset: an exported `NodePath` left as `""` is
+	indistinguishable in effect from one never assigned, and reporting the empty
+	one as "set" would miss exactly the fault this exists to find.
+	"""
+	if value == null:
+		return false
+	if value is NodePath:
+		return str(value) != ""
+	if value is String:
+		return (value as String) != ""
+	if value is Array:
+		return not (value as Array).is_empty()
+	return true
+
+
+func _short_value(value: Variant) -> String:
+	var s := str(value)
+	return s.substr(0, 80)

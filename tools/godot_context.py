@@ -23,9 +23,18 @@ Design notes that matter:
   needs sight.
 
 Usage:
-  tools/godot_context.py            # full payload
-  tools/godot_context.py --summary  # one-screen human digest
-  tools/godot_context.py --fast     # skip runtime boot (no game execution)
+  tools/godot_context.py             # full payload
+  tools/godot_context.py --summary   # one-screen human digest
+  tools/godot_context.py --fast      # skip runtime boot (no game execution)
+  tools/godot_context.py --main-only # narrow the scene scan to the main scene
+  tools/godot_context.py --verbose   # print resolved paths to stderr
+
+--fast and --main-only are INDEPENDENT and were once conflated:
+  --fast       does not boot the game, so no runtime view exists
+  --main-only  scans only the main scene, so faults in other scenes are invisible
+Both make the output shallower. Reading `--fast` output as "the project has only
+these problems" is wrong for a second reason people do not expect, which is why
+the distinction is spelled out here rather than left to be inferred.
 """
 from __future__ import annotations
 
@@ -73,6 +82,25 @@ ENV = {
 for p in (ENV["XDG_CONFIG_HOME"], ENV["XDG_DATA_HOME"], ENV["XDG_CACHE_HOME"]):
     os.makedirs(p, exist_ok=True)
 
+# --- Asset import ------------------------------------------------------------
+# Without an import pass, `ResourceLoader.exists()` is FALSE for an asset that is
+# plainly on disk, so every texture loaded by path reports as missing. This
+# context payload reports textures for sprites and shapes for colliders, so
+# skipping the import here produced findings about a project's CONTENT when the
+# real situation was a missing build step — the most expensive kind of wrong,
+# because it sends a reader to edit files that are already correct.
+#
+# `godot_validate.sh` runs the same shared script for the same reason. Keeping it
+# in one place is what stops the entry points disagreeing about whether the same
+# project is missing an asset.
+_IMPORT = os.path.join(TOOLS, "ensure_imported.sh")
+if os.path.exists(_IMPORT):
+    try:
+        subprocess.run(["bash", _IMPORT], cwd=PROJECT, env=ENV,
+                       capture_output=True, text=True, timeout=700)
+    except (OSError, subprocess.SubprocessError):
+        pass  # a failed import is reported by the collectors, not raised here
+
 NOISE = re.compile(
     r"godot2026|dir_access|editor_settings|Error saving editor settings"
     r"|Cannot save file|^Godot Engine v|^$"
@@ -112,6 +140,42 @@ def section_engine():
     return out
 
 
+def _project_fingerprint():
+    """Identify the revision under test, so a result can be attributed to one.
+
+    A finding is only reproducible against a specific revision, and the sibling
+    project for which this tooling was built was under active development while it
+    was being measured — `git log` moved several times during a single session. A
+    report that does not say which revision it describes cannot be compared with
+    any other report.
+
+    Best-effort by design: a project that is not a git repository still produces a
+    payload, it simply has no commit. Reporting a partial fingerprint is better
+    than refusing to record one, as long as the gap is visible rather than filled
+    with a plausible default.
+
+    `dirty_files` is kept because "clean" and "9 uncommitted files" are different
+    claims about reproducibility, and only one of them is honest here.
+    """
+    def git(*args):
+        try:
+            p = subprocess.run(["git", "-C", PROJECT, *args],
+                               capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        return p.stdout if p.returncode == 0 else None
+
+    commit = (git("rev-parse", "HEAD") or "").strip()
+    status = git("status", "--porcelain") or ""
+    dirty_files = len([l for l in status.splitlines() if l.strip()])
+    return {
+        "project_commit": commit or None,
+        "project_commit_short": commit[:7] or None,
+        "project_dirty": dirty_files > 0,
+        "project_dirty_files": dirty_files,
+    }
+
+
 def section_project():
     scenes, scripts, others = [], [], 0
     for dirpath, dirnames, filenames in os.walk(PROJECT):
@@ -133,6 +197,8 @@ def section_project():
         # A missing import cache causes false "missing resource" errors, so the
         # agent needs to know whether a scan is trustworthy yet.
         "import_cache_present": os.path.isdir(os.path.join(PROJECT, ".godot", "imported")),
+        # Which revision this describes. See PROTOCOL.md: `dirty` is not noise.
+        "fingerprint": _project_fingerprint(),
     }
 
 
@@ -241,13 +307,58 @@ def section_scenes(runtime=True, only_main=False):
     return result
 
 
+def _main_scene_problem():
+    """Why the project cannot be booted, or None when it can.
+
+    Checked before running the engine because Godot's run path raises an
+    OS-level alert when there is nothing runnable, and on Linux that alert is a
+    `zenity` modal dialog on the user's desktop. `--headless` does not suppress
+    it — headless disables rendering, not `OS::alert` — and neither does clearing
+    `DISPLAY`, since zenity is spawned regardless and merely fails to connect.
+
+    A tool whose job is to observe a project must not put a dialog on someone's
+    screen as a side effect. The shared script is used by `godot_validate.sh`
+    too, so both entry points refuse to boot for the same stated reason.
+    """
+    checker = os.path.join(TOOLS, "main_scene_check.sh")
+    if not os.path.exists(checker):
+        return None
+    try:
+        p = subprocess.run(["bash", checker], cwd=PROJECT, env=ENV,
+                           capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if p.returncode == 0:
+        return None
+    return (p.stdout or p.stderr).strip() or "main scene is not runnable"
+
+
 def section_runtime(frames=180):
+    # Refuse to boot an unrunnable project: the reason becomes the finding, and
+    # no dialog is raised. Silence here would be worse than the dialog, because a
+    # runtime section that simply has no errors reads as "the game is healthy".
+    problem = _main_scene_problem()
+    if problem:
+        message = f"ERROR: cannot boot the project — {problem}"
+        return {
+            "frames": frames,
+            "booted": False,
+            "errors": [message],
+            "warnings": [],
+            "error_count": 1,
+            "warning_count": 0,
+            "note": ("The game was not started, so nothing is known about runtime "
+                     "behaviour. This is a limit of the observation, not evidence "
+                     "of a healthy run."),
+        }
+
     code, out = run([GODOT, "--headless", f"--quit-after", str(frames)], timeout=240)
     body = clean(out)
     errors = re.findall(r"ERROR:.*", body)
     warnings = re.findall(r"WARNING:.*", body)
     return {
         "frames": frames,
+        "booted": True,
         "errors": errors[:20],
         "warnings": warnings[:20],
         "error_count": len(errors),
@@ -328,7 +439,33 @@ def summarise(ctx):
 def main():
     args = sys.argv[1:]
     fast = "--fast" in args
+    verbose = "--verbose" in args or "-v" in args
+
+    if verbose:
+        # Print the resolved paths to STDERR, never stdout: stdout carries the
+        # payload a machine parses, and a diagnostic line there corrupts it.
+        #
+        # This exists because "the sprite texture is null" and "the state
+        # directory resolved somewhere unexpected, so a different project or a
+        # stale dump was read" look identical in the output. Naming the project,
+        # the engine and the state/reference locations turns that class of
+        # support question into one line of reading.
+        dump = os.path.join(STATE, "api-dump", "extension_api.json")
+        print(f"godot-lens: project     = {PROJECT}", file=sys.stderr)
+        print(f"godot-lens: engine      = {GODOT}", file=sys.stderr)
+        print(f"godot-lens: state dir   = {STATE}", file=sys.stderr)
+        print(f"godot-lens: api dump    = {dump} "
+              f"({'present' if os.path.exists(dump) else 'ABSENT'})",
+              file=sys.stderr)
+        print(f"godot-lens: import cache= "
+              f"{'present' if os.path.isdir(os.path.join(PROJECT, '.godot', 'imported')) else 'ABSENT'}"
+              "  (absent -> textures loaded by path report as missing)",
+              file=sys.stderr)
+
     # All scenes by default; --main-only narrows it for a faster, shallower look.
+    # The two flags are independent: --fast skips booting the game, --main-only
+    # narrows the scene scan. Conflating them made `--fast` silently report on the
+    # main scene alone, so faults elsewhere read as absent.
     ctx = build(fast=fast, all_scenes="--main-only" not in args)
     if "--summary" in args:
         print(summarise(ctx))

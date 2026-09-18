@@ -1,0 +1,99 @@
+name: godot-lens
+
+# Project health for Godot repositories, with no agent and no LLM involved.
+#
+# This is the job that makes the tooling useful to people who never run an AI:
+# it turns "the project is broken" into a failing check with a structured
+# finding, on the pull request, before merge.
+#
+# Two things are deliberately explicit here because a green pipeline is trusted,
+# and these are the ways this pipeline could go green while being wrong.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # Godot needs writable config/data directories. Without them it aborts with a
+  # bare `signal 11`, which reads as an engine crash rather than a permissions
+  # problem. Keeping them inside the workspace also keeps runs reproducible.
+  GODOT_LENS_HOME: ${{ github.workspace }}/.lensstate
+  GODOT_VERSION: "4.5.1"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot ${{ env.GODOT_VERSION }}
+        run: |
+          set -euo pipefail
+          base="https://github.com/godotengine/godot/releases/download"
+          file="Godot_v${GODOT_VERSION}-stable_linux.x86_64"
+          curl -fsSL -o /tmp/godot.zip "${base}/${GODOT_VERSION}-stable/${file}.zip"
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          install -m 0755 "/tmp/godot/${file}" /usr/local/bin/godot
+          godot --version
+
+      - name: Locate the Godot project
+        run: |
+          set -euo pipefail
+          # Never guess: a wrong-but-plausible project makes every later result
+          # describe something nobody asked about.
+          if [ -z "${GODOT_PROJECT:-}" ]; then
+            found="$(find . -name project.godot -not -path './.git/*' -printf '%h\n' | head -1)"
+            if [ -z "$found" ]; then
+              echo "::error::no project.godot found in this repository"
+              exit 1
+            fi
+            echo "GODOT_PROJECT=${found}" >> "$GITHUB_ENV"
+          fi
+          echo "project: ${GODOT_PROJECT:-$found}"
+
+      - name: Build the engine API reference
+        run: |
+          set -euo pipefail
+          # Generated from the installed binary, so it cannot disagree with the
+          # engine actually running.
+          bash godot-lens/tools/godot_api.sh dump
+
+      - name: Validate (static / scene / runtime)
+        run: |
+          set -euo pipefail
+          # --json emits one object per finding, so results can be annotated onto
+          # the diff instead of scraped out of a log.
+          bash godot-lens/tools/godot_validate.sh --json | tee /tmp/validate.txt
+
+      - name: Annotate findings on the diff
+        if: always()
+        run: python3 godot-lens/benchmarks/annotate.py /tmp/validate.txt
+
+      - name: Verify the graders themselves
+        run: |
+          set -euo pipefail
+          # A benchmark that can pass a broken project manufactures confidence,
+          # so its own correctness is part of this pipeline rather than a local
+          # nicety.
+          python3 godot-lens/benchmarks/selftest.py
+          python3 godot-lens/benchmarks/study_selftest.py
+
+      - name: Verify the renderers
+        run: |
+          set -euo pipefail
+          # Needs no Godot and no project: the renderers are pure functions of a
+          # frozen payload, which is what makes the awkward inputs (a project that
+          # cannot boot, a malformed field) testable at all.
+          python3 godot-lens/benchmarks/render_selftest.py
+
+      - name: Measure observability coverage
+        run: |
+          set -euo pipefail
+          # Which fault classes can the tooling see at all, and how many false
+          # positives does it raise on a healthy project. Exits non-zero only if a
+          # class behaves differently from the registry: a documented blind spot
+          # being missed is a pass, because the measurement agreeing with the
+          # documented limit is the point.
+          python3 godot-lens/benchmarks/coverage.py

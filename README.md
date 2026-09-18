@@ -47,6 +47,75 @@ because code created them.
 
 Exit code 0 means healthy; 1 means there is something to fix.
 
+## What the experiments actually showed
+
+This project began with a hypothesis. It has been tested twice, and both results
+are reported here — including the one that is unflattering, because a project
+whose only published evidence is favourable has published nothing.
+
+**Hypothesis 1 — agents fail on Godot because they cannot see engine state.**
+**Rejected.** A capable agent given a shell writes its own inspection script. In
+the first A/B run the *control* arm repaired 12/12, leaving no headroom in which
+any improvement could appear. A condition silent to the **engine** is not
+invisible to a competent **agent**, because it is written down in a file the
+agent can read.
+
+**Hypothesis 2 — the tooling lowers the cost of obtaining that state.**
+**Not supported either**, and this one cost money to learn. Re-run with the
+experiment properly isolated, 30 cells over 6 fault cases:
+
+| | arm B (native) | arm C (+ godot-lens) |
+|---|---|---|
+| repaired | **8/12** | **8/12** |
+| median output tokens (all cells) | 8,764 | 10,932 |
+| median turns (all cells) | 23 | 31 |
+| invoked the tool | — | **12/12** |
+
+No case was repaired by C that B did not also repair. Restricted to the four
+cases both arms repaired — the only population where a ratio means anything,
+since a cell that fails cheaply is not efficient — C used **1.33× the output
+tokens and 1.52× the turns**. On this fault suite the tooling did not reduce the
+cost of observation; it raised it. (Both runs are in the repository:
+[negative](experiments/agent-ab/results-isolated/RESULTS.md),
+[contaminated](experiments/agent-ab/CONTAMINATION.md).)
+
+**What the tooling was observed to do** — measured rather than asserted, and the
+only performance claim this README makes:
+
+```bash
+godot-lens bench --coverage     # detected: 8/10   blind: 2   false positives: 0
+```
+
+It reports runtime state that the engine's own output does not, and it says so
+per fault class instead of in aggregate.
+
+**The finding that matters most.** In the isolated run, one cell had the tool
+hand the agent the decisive fact, and then confirm the negative on the other
+class:
+
+```
+$ godot-lens api property sub_emitter
+- GPUParticles2D.sub_emitter: NodePath
+
+$ godot-lens api class ParticleProcessMaterial | grep sub_emitter
+(no output)
+```
+
+The agent then **deleted the property** rather than moving it to the class that
+declares it. An observability tool can report that a property is attached to a
+class that does not declare it. It cannot make anyone move the property instead
+of removing it. **The bottleneck was never seeing** — the reward-hacks this
+project names (delete, swallow, redirect, comment) are all edits an agent makes
+*while holding correct information*.
+
+> **If you want a tool that raises agent success rates, this is not it, and
+> nothing in this repository shows otherwise.** What is here is a trustworthy
+> observer: it reports facts, keeps them separate from diagnosis and advice, and
+> its graders are themselves tested against the hacks that have beaten them.
+> Read the negative results before adopting —
+> [`experiments/agent-ab/results-isolated/RESULTS.md`](experiments/agent-ab/results-isolated/RESULTS.md)
+> and [`LESSONS.md`](LESSONS.md) §21–§26.
+
 ## A green check is not a repair
 
 This is the result that distinguishes the project, and it is a warning rather
@@ -94,11 +163,41 @@ godot-lens diagnose    # what do these symptoms mean?      (meaning)
 godot-lens validate    # is the project broken?            (runs the game)
 godot-lens scene       # what is actually in this scene?
 godot-lens api         # does this symbol exist in this engine?
+godot-lens study       # is the running game still saying what the source said?
 godot-lens bench       # benchmark agents; verify the graders
 ```
 
 `./godot-lens` works from a fresh clone with no installation. `uv tool install .`
 (or `pip install --user .`) provides the same command on `PATH`.
+
+### Three audiences, one payload
+
+The three consumers are different in kind, not just in taste, so they are three
+explicit output modes over the same schema rather than one format stretched to fit:
+
+| Audience | Command | Shape |
+|---|---|---|
+| agent | `inspect --agent` | ~120-token digest, budgeted for a context window |
+| agent / program | `inspect --json` | the raw schema |
+| ci | `validate --json` · `godot-lens ci` | one JSONL record per finding; one verdict line |
+| human | `godot-lens render` | one self-contained HTML file |
+
+```bash
+godot-lens inspect --json-out payload.json     # freeze what was observed
+godot-lens ci     --in payload.json            # verdict line
+godot-lens render --in payload.json --out report.html
+```
+
+**The renderers need no engine.** They are pure functions of the payload, so once
+a payload is frozen the CI summary and the HTML report can be produced — and
+tested — with no Godot and no project present. That is what makes the awkward
+inputs (a project that cannot boot, a malformed field) ordinary test cases instead
+of things that require manufacturing a broken project. See
+`benchmarks/render_selftest.py`.
+
+**There are three runtime states, not two.** A project whose game never booted is
+reported as `NOT OBSERVED`, never as "0 errors" — a clean-looking summary for a
+project nothing was learned about is the most damaging thing a digest can produce.
 
 **Facts, meaning and advice are separate commands on purpose.** `inspect` reports
 state, `diagnose` explains it, and neither decides what *should* have happened —
@@ -112,6 +211,8 @@ that needs a specification, which is not this tool's to invent. See
 | `validate` | `tools/godot_validate.sh` | "Is the project broken?" — three layers |
 | `scene` | `tools/godot_scene.sh` | "What is actually in this scene?" |
 | `api` | `tools/godot_api.py` | "Does this method exist in this engine?" |
+| `study` | `src/godot_lens/study.py` | "Is the game faithful to the source?" — four instruments |
+| `render` / `ci` | `src/godot_lens/render.py` | presentation modes over a frozen payload |
 
 ### Diagnosis turns state into consequences
 
@@ -182,7 +283,13 @@ log:
 {"layer":"scene","file":"res://Player.tscn","line":6,"message":"ERROR: ..."}
 ```
 
-Two caveats matter more in CI than anywhere else, because a pipeline that goes
+A ready-made workflow lives in
+[`.github/workflows/validate.yml`](.github/workflows/validate.yml). It installs
+Godot, builds the API reference, validates, annotates findings onto the diff via
+`benchmarks/annotate.py`, and then **verifies the graders themselves** — because a
+benchmark that can pass a broken project is a liability inside a pipeline.
+
+Three caveats matter more in CI than anywhere else, because a pipeline that goes
 green is trusted:
 
 - **Godot's exit code is not a health signal.** It returns `0` even when a scene
@@ -191,6 +298,10 @@ green is trusted:
 - **A green run proves the executed paths are healthy, not that the project is
   correct.** A fault in an unreached branch is invisible to both static checking
   and a headless boot. Do not read a passing pipeline as a correctness proof.
+- **A project with no runnable main scene is reported, not executed.** Godot's run
+  path raises an OS alert in that state — on Linux a `zenity` dialog — which
+  `--headless` does not suppress. The validator checks first and turns the reason
+  into a finding, so a CI job cannot put a modal dialog on someone's desktop.
 
 ## Install
 
@@ -253,6 +364,34 @@ python3 benchmarks/benchmark.py --all --check /tmp/lab
 ```
 
 Three fault classes: runtime node path, static type error, missing resource.
+
+### First: how much can the tooling see at all?
+
+```bash
+godot-lens bench --coverage
+```
+
+A fault an agent is asked to fix is useless as an experiment if the tooling cannot
+observe it: "the tooling did not help" and "the injected fault was invisible" look
+identical in the numbers, and they call for opposite responses.
+
+Measured on the reference project:
+
+```
+detected: 8/10   blind: 2
+false positives on an unmodified project: 0
+```
+
+| Blind class | Why it is not a missing rule |
+|---|---|
+| two colliders overlapping (clipping) | legal to Godot and reported by nothing; needs bounding-box intersection |
+| a Control outside the viewport | needs a rect comparison against the viewport |
+
+Both need **new observation capability**, not another diagnostic rule — which is
+why the measurement came before the experiment design. The gap is recorded in
+`benchmarks/mutations.py::KNOWN_UNOBSERVABLE` so it cannot be mistaken for
+coverage. The first run of this harness reported a wrong number three separate
+ways and caught all three itself; see [`LESSONS.md`](LESSONS.md) §18.
 
 **The graders are themselves tested.** Each case is verified in both directions
 *and* against the reward-hacks that have historically beaten it:
@@ -325,6 +464,32 @@ including a live agent run that **redirected a lookup to an unrelated node,
 declared success, and passed the first version of the grader** — the single most
 instructive result from this project.
 
+## Related work
+
+**[GameDevBench](https://waynechi.com/gamedevbench)** — Chi et al., ICML 2026
+([paper](https://arxiv.org/abs/2602.11103),
+[code](https://github.com/waynchi/gamedevbench)) — is the first benchmark for
+agents on game-development tasks: 333 Godot tasks, deterministically verified
+through Godot's own test framework, best agent at 68.8%.
+
+It is the closest work to this one, and it is complementary rather than
+overlapping. GameDevBench measures whether an agent can **produce** a correct
+scene; `godot-lens` reports whether what runs is what was intended, which is the
+loop an agent needs *after* an edit. Its published failure analysis is also where
+this project's fault taxonomy comes from: the two structural failure modes added
+in `PROTOCOL.md`'s `exported` field and `PROPERTY_ON_WRONG_CLASS`
+([its §G.1 case study](docs/gamedevbench-failure-modes.md)) were the benchmark's
+most common, at 36.2% and 35.9% of failures.
+
+Worth stating plainly, because it bounds what this tooling can offer: roughly half
+of GameDevBench's failure modes are **multimodal** — wrong spritesheet region,
+wrong animation frames, wrong shader parameters, wrong camera framing. Those
+require reading an image, and are outside this tool's scope by construction. The
+half that is structural — mis-parented nodes, unset references, wrong object
+targets — is where it operates. See
+[`docs/gamedevbench-failure-modes.md`](docs/gamedevbench-failure-modes.md) for the
+full mapping, including the classes that are deliberately not attempted.
+
 ## Documentation
 
 - [`PROTOCOL.md`](PROTOCOL.md) — the observable-state JSON contract
@@ -334,6 +499,8 @@ instructive result from this project.
   the boundaries that let two agents work in parallel safely
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — layers, boundaries, design principles
 - [`LESSONS.md`](LESSONS.md) — findings, mistakes, open problems
+- [`docs/gamedevbench-failure-modes.md`](docs/gamedevbench-failure-modes.md) —
+  GameDevBench's failure taxonomy mapped onto what this tooling can and cannot see
 
 ## License
 

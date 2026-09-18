@@ -1,0 +1,120 @@
+{
+  "event_count": 9,
+  "events": [
+    {
+      "frame": 0,
+      "kind": "text",
+      "path": "/Main/@Label@2",
+      "type": "Label",
+      "from": "",
+      "to": "Hello, #friend.",
+      "position": "(64.0, 420.0)",
+      "note": "observed before any input (set during _ready)"
+    },
+    {
+      "frame": 0,
+      "kind": "text",
+      "path": "/Main/@Label@3",
+      "type": "Label",
+      "from": "",
+      "to": "Eileen",
+      "position": "(64.0, 370.0)",
+      "note": "observed before any input (set during _ready)"
+    },
+    {
+      "frame": 0,
+      "kind": "text",
+      "path": "/Main/@Button@4",
+      "type": "Button",
+      "from": "",
+      "to": "Continue",
+      "position": "(1050.0, 620.0)",
+      "note": "observed before any input (set during _ready)"
+    },
+    {
+      "frame": 1,
+      "from": "Hello, #friend.",
+      "kind": "text",
+      "path": "/Main/@Label@2",
+      "position": "(64.0, 420.0)",
+      "to": "This is narration with an escaped quote: \"hello\".",
+      "type": "Label"
+    },
+    {
+      "frame": 1,
+      "from": "Eileen",
+      "kind": "text",
+      "path": "/Main/@Label@3",
+      "position": "(64.0, 370.0)",
+      "to": "",
+      "type": "Label"
+    },
+    {
+      "frame": 3,
+      "from": "This is narration with an escaped quote: \"hello\".",
+      "kind": "text",
+      "path": "/Main/@Label@2",
+      "position": "(64.0, 420.0)",
+      "to": "The exact branch is selected.",
+      "type": "Label"
+    },
+    {
+      "frame": 3,
+      "from": "",
+      "kind": "text",
+      "path": "/Main/@Label@3",
+      "position": "(64.0, 370.0)",
+      "to": "Eileen",
+      "type": "Label"
+    },
+    {
+      "frame": 5,
+      "from": "The exact branch is selected.",
+      "kind": "text",
+      "path": "/Main/@Label@2",
+      "position": "(64.0, 420.0)",
+      "to": "What should we do next?",
+      "type": "Label"
+    },
+    {
+      "frame": 5,
+      "from": "Eileen",
+      "kind": "text",
+      "path": "/Main/@Label@3",
+      "position": "(64.0, 370.0)",
+      "to": "",
+      "type": "Label"
+    }
+  ],
+  "frames_observed": 12,
+  "initial_display": {
+    "frame": 0,
+    "nodes": [
+      {
+        "path": "/Main/@Label@2",
+        "position": "(64.0, 420.0)",
+        "text": "Hello, #friend.",
+        "type": "Label",
+        "y": 420.0
+      },
+      {
+        "path": "/Main/@Label@3",
+        "position": "(64.0, 370.0)",
+        "text": "Eileen",
+        "type": "Label",
+        "y": 370.0
+      },
+      {
+        "path": "/Main/@Button@4",
+        "position": "(1050.0, 620.0)",
+        "text": "Continue",
+        "type": "Button",
+        "y": 620.0
+      }
+    ]
+  },
+  "inputs_sent": 6,
+  "scene": "res://Main.tscn",
+  "stall_reason": "no display change after 3 accept inputs; the game is waiting for something an accept input does not satisfy (a menu choice, a timeout, or the end of the story)",
+  "stalled": true
+}

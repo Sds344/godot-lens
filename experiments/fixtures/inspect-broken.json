@@ -1,0 +1,182 @@
+{
+  "_comment": "Frozen protocol payload for developing renderers WITHOUT running Godot. Derived from real engine output captured on 2026-09-17; see PROVENANCE.md. It is test input for the renderers, NOT a live claim about any project.",
+  "schema": "godot-lens/observation",
+  "version": "0.1",
+  "engine": {
+    "installed": "4.5.1.stable.official.f62fdbde1",
+    "api_dump_present": true,
+    "api_dump_version": "Godot Engine v4.5.1.stable.official",
+    "api_matches_engine": true
+  },
+  "project": {
+    "path": "<project>",
+    "main_scene": "res://Main.tscn",
+    "scenes": [
+      "Main.tscn",
+      "VisualNovelPreview.tscn",
+      "screens/hud.tscn",
+      "screens/pause_overlay.tscn"
+    ],
+    "scripts": [
+      "scripts/story_runtime.gd"
+    ],
+    "other_file_count": 12,
+    "import_cache_present": true,
+    "fingerprint": {
+      "project_commit": "9b9cdcb91a175395da8180076e597ab67268fb1c",
+      "project_commit_short": "9b9cdcb",
+      "project_dirty": true,
+      "project_dirty_files": 4
+    }
+  },
+  "api": {
+    "available": true,
+    "class_count": 971,
+    "sample_classes": [
+      "Node",
+      "Node2D",
+      "Control"
+    ]
+  },
+  "scenes": [
+    {
+      "scene": "res://Main.tscn",
+      "static": {
+        "root_type": "Control",
+        "child_count": 0,
+        "root": {
+          "name": "Main",
+          "type": "Control",
+          "child_count": 0,
+          "children": []
+        },
+        "tree": [
+          "Main :Control"
+        ]
+      },
+      "runtime": {
+        "root_type": "Control",
+        "child_count": 5,
+        "root": {
+          "name": "Main",
+          "type": "Control",
+          "child_count": 5,
+          "script": "res://scripts/story_runtime.gd",
+          "children": [
+            {
+              "name": "Images",
+              "type": "Node2D",
+              "child_count": 2,
+              "children": [
+                {
+                  "name": "@Sprite2D@6",
+                  "type": "Sprite2D",
+                  "child_count": 0,
+                  "children": [],
+                  "texture": "res://assets/images/bg_room.svg",
+                  "scene_file_path": "",
+                  "generated_name": true
+                },
+                {
+                  "name": "@Sprite2D@7",
+                  "type": "Sprite2D",
+                  "child_count": 0,
+                  "children": [],
+                  "texture": "res://assets/images/eileen_neutral.svg",
+                  "scene_file_path": "",
+                  "generated_name": true
+                }
+              ]
+            },
+            {
+              "name": "@Label@2",
+              "type": "Label",
+              "child_count": 0,
+              "children": [],
+              "text": "Hello, #friend."
+            },
+            {
+              "name": "@Label@3",
+              "type": "Label",
+              "child_count": 0,
+              "children": [],
+              "text": "Eileen"
+            },
+            {
+              "name": "@Button@4",
+              "type": "Button",
+              "child_count": 0,
+              "children": [],
+              "text": "Continue"
+            },
+            {
+              "name": "@VBoxContainer@5",
+              "type": "VBoxContainer",
+              "child_count": 0,
+              "children": []
+            }
+          ]
+        },
+        "tree": [
+          "Main :Control",
+          "  Images :Node2D",
+          "  @Label@2 :Label",
+          "  @Label@3 :Label",
+          "  @Button@4 :Button",
+          "  @VBoxContainer@5 :VBoxContainer"
+        ]
+      }
+    }
+  ],
+  "runtime": {
+    "frames": 200,
+    "booted": true,
+    "errors": [
+      "ERROR: Node not found: \"StatusLabel\" (relative to \"/root/Main\").",
+      "ERROR: Invalid assignment of property or key 'text' with value of type 'String' on a base object of type 'null instance'."
+    ],
+    "warnings": [],
+    "error_count": 2,
+    "warning_count": 0,
+    "observed_displays": [
+      {
+        "frame": 0,
+        "speaker": "Eileen",
+        "text": "Hello, #friend."
+      },
+      {
+        "frame": 1,
+        "speaker": "",
+        "text": "This is narration with an escaped quote: \"hello\"."
+      },
+      {
+        "frame": 3,
+        "speaker": "Eileen",
+        "text": "The exact branch is selected."
+      },
+      {
+        "frame": 5,
+        "speaker": "",
+        "text": "What should we do next?"
+      }
+    ]
+  },
+  "findings": {
+    "finding_count": 2,
+    "findings": [
+      {
+        "layer": "scene",
+        "file": "res://Broken.tscn",
+        "line": 6,
+        "message": "ERROR: [ext_resource] referenced non-existent resource at: res://scripts/does_not_exist.gd."
+      },
+      {
+        "layer": "runtime",
+        "file": "",
+        "line": 5,
+        "message": "ERROR: Node not found: \"StatusLabel\" (relative to \"/root/Main\")."
+      }
+    ]
+  },
+  "ok": false
+}

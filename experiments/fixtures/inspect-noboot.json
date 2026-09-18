@@ -1,0 +1,58 @@
+{
+  "_comment": "Frozen protocol payload for developing renderers WITHOUT running Godot. Derived from real engine output captured on 2026-09-17; see PROVENANCE.md. It is test input for the renderers, NOT a live claim about any project.",
+  "schema": "godot-lens/observation",
+  "version": "0.1",
+  "engine": {
+    "installed": "4.5.1.stable.official.f62fdbde1",
+    "api_dump_present": true,
+    "api_dump_version": "Godot Engine v4.5.1.stable.official",
+    "api_matches_engine": true
+  },
+  "project": {
+    "path": "<project>",
+    "main_scene": "res://Main.tscn",
+    "scenes": [
+      "Main.tscn",
+      "VisualNovelPreview.tscn",
+      "screens/hud.tscn",
+      "screens/pause_overlay.tscn"
+    ],
+    "scripts": [
+      "scripts/story_runtime.gd"
+    ],
+    "other_file_count": 12,
+    "import_cache_present": true,
+    "fingerprint": {
+      "project_commit": "9b9cdcb91a175395da8180076e597ab67268fb1c",
+      "project_commit_short": "9b9cdcb",
+      "project_dirty": true,
+      "project_dirty_files": 4
+    }
+  },
+  "api": {
+    "available": true,
+    "class_count": 971,
+    "sample_classes": [
+      "Node",
+      "Node2D",
+      "Control"
+    ]
+  },
+  "scenes": [],
+  "runtime": {
+    "frames": 180,
+    "booted": false,
+    "errors": [
+      "ERROR: cannot boot the project — project.godot has no application/run/main_scene, so there is nothing to run"
+    ],
+    "warnings": [],
+    "error_count": 1,
+    "warning_count": 0,
+    "note": "The game was not started, so nothing is known about runtime behaviour."
+  },
+  "findings": {
+    "finding_count": 0,
+    "findings": []
+  },
+  "ok": false
+}

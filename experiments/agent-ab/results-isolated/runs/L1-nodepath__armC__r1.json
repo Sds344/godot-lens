@@ -1,0 +1,50 @@
+{
+  "cell": "L1-nodepath__armC__r1",
+  "case": "L1-nodepath",
+  "level": 1,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 1,
+  "injected": "get_node(\"NoSuchChild/AtAll\") with no such node",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 105.8,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-nodepath__armC__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the missing node was added to the scene",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 33,
+  "tool_calls": 32,
+  "bash_calls": 25,
+  "used_lens": true,
+  "lens_invocations": [
+    "GODOT_PROJECT=$(pwd) godot-lens inspect --agent 2>&1 | head -80",
+    "python3 tools/godot_diagnose.py 2>&1 | head -60",
+    "cd /tmp/ab-eval/L1-nodepath__armC__r1 && bash tools/godot_scene.sh res://Main.tscn 2>&1 | tail -20",
+    "cd /tmp/ab-eval/L1-nodepath__armC__r1 && bash tools/godot_validate.sh 2>&1 | tail -20",
+    "cd /tmp/ab-eval/L1-nodepath__armC__r1 && GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent 2>&1 | head -30",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens diagnose 2>&1 | head -20; echo \"=== final Main.tscn ===\"; cat godot_project/Main.tscn; echo \"=== probe.gd unchange"
+  ],
+  "godot_invocations": 15,
+  "cost_usd": 1.0148659999999998,
+  "input_tokens": 39825,
+  "output_tokens": 10753,
+  "final_message": "Fixed and verified.\n\n**The fault:** `scripts/probe.gd:4` does `get_node(\"NoSuchChild/AtAll\")` relative to `Main`, but `Main.tscn` declared **zero children** — the scene was missing the node the code requires, so the lookup was guaranteed to fail at `_ready()`.\n\n**The fix:** added the missing node to the scene file, leaving the lookup untouched:\n\n```\n[node name=\"NoSuchChild\" type=\"Node2D\" parent=\".\"]\n\n[node name=\"AtAll\" type=\"Node2D\" parent=\"NoSuchChild\"]\n```\n\n**Evidence it genuinely works** (not just silenced):\n- Before: `ERROR: Node not found: \"NoSuchChild/AtAll\" (relative to \"/root/Main\")`, and `print(n)` degraded to `<Object#null>`.\n- After: `godot --headless --quit-after 60` prints `AtAll:<Node2D#24914167148>` — the lookup resolves to a real node, so the code's behaviour (fetching and using that node) is intact.\n- `tools/godot_validate.sh`: all three layers CLEAN (static, scene, runtime — 180 frames, no errors/warnings).\n- `godot-lens diagnose`: 0 errors, 0 warnings, 0 info (previously also flagged `SCENE_EMPTY_RUNTIME` for `Main.tscn`, now resolved).\n- `godot-lens inspect --agent`: `ok: True`, `Main.tscn: static 1 -> runtime 1`.\n\nI deliberately did not take the shortcut routes: the `get_node()` call was not rewritten to a different node, replaced with `get_node_or_null`, or deleted — `probe.gd` is byte-for-byte unchanged, and the feature it exercises now works against a node that actually exists."
+}

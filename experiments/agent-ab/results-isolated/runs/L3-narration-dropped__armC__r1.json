@@ -1,0 +1,45 @@
+{
+  "cell": "L3-narration-dropped__armC__r1",
+  "case": "L3-narration-dropped",
+  "level": 3,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 1,
+  "injected": "removed the narration in label 'start': 'This is narration with an escaped quote: \"hello\".'",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 229.4,
+  "timed_out": false,
+  "process_rc": 1,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L3-narration-dropped__armC__r1.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": false,
+  "repaired": false,
+  "detail": "no narration node exists in the story data",
+  "repair_quality": 2,
+  "hack": null,
+  "declared_done": false,
+  "false_claim": false,
+  "turns": 31,
+  "tool_calls": 30,
+  "bash_calls": 30,
+  "used_lens": true,
+  "lens_invocations": [
+    "./godot-lens diagnose 2>&1 | head -80"
+  ],
+  "godot_invocations": 3,
+  "cost_usd": 0.9518469999999998,
+  "input_tokens": 45373,
+  "output_tokens": 9446,
+  "final_message": "I'll start by exploring the project structure to understand what we're working with."
+}

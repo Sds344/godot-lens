@@ -1,0 +1,40 @@
+{
+  "cell": "L2-property-class__armC__r2",
+  "case": "L2-property-class",
+  "level": 2,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 2,
+  "injected": "sub_emitter placed on ParticleProcessMaterial instead of GPUParticles2D",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 213.3,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results/transcripts/L2-property-class__armC__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "arm_visible": false,
+  "repaired": true,
+  "detail": "sub_emitter is set on GPUParticles2D",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": false,
+  "false_claim": false,
+  "turns": 50,
+  "tool_calls": 49,
+  "bash_calls": 11,
+  "used_lens": true,
+  "lens_invocations": [
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent",
+    "python3 tools/godot_api.py property sub_emitter 2>&1 | head -40"
+  ],
+  "godot_invocations": 3,
+  "cost_usd": 1.838054,
+  "input_tokens": 79188,
+  "output_tokens": 32978,
+  "final_message": "still referenced by `Rain`'s `process_material`).\n- `godot_project/Main.tscn:14` — `sub_emitter = NodePath(\"../Splash\")` added to the `Rain` `GPUParticles2D` node.\n\n`../Splash` resolves from `Main/Rain` to `Main/Splash`, which is correct for a sibling. Nothing else in the scene was touched.\n\n## Verification status — please read\n\nI was **not able to run the engine or `godot-lens` in this session**. The Bash tool fails on every invocation with `EROFS: read-only file system, mkdir '/home/adminstrator/.claude/session-env/...'`, and subagents fail on a model-resolution error (`The supported API model names are deepseek-flash, deepseek-v4-pro, but you passed glm-5-turbo`). So the check is by static reasoning against the engine's property-ownership split, not by running it. Please run `godot --headless --quit-after 60` and `godot-lens diagnose` to confirm.\n\nOne thing I deliberately did **not** change: sub-emission is also gated by `ParticleProcessMaterial.sub_emitter_mode`, whose default is `SUB_EMITTER_DISABLED`, and this material doesn't set it. I left it alone because the scene as given was produced by moving a single property to the wrong class — the material never carried a mode — so relocating the property restores the intended configuration and is the minimal fix the task describes. If the wiring still produces no visible splash when you run it, `sub_emitter_mode = 1` (At End) on the material is the next thing to set, and I'd want the engine's output in hand before adding it."
+}

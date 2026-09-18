@@ -1,0 +1,23 @@
+{
+  "study": "renpy-fidelity-001",
+  "kind": "semantic-fidelity",
+  "fingerprint": {
+    "project_path": "/home/adminstrator/projects/Renpy2Godot/godot_project",
+    "project_commit": "f6e85e02dbd0f4310639e53eec8c2ee6b67b2a40",
+    "project_commit_short": "f6e85e0",
+    "project_dirty": true,
+    "project_dirty_files": 9,
+    "schema": "godot-lens/observation",
+    "schema_version": "0.1",
+    "engine": "4.5.1.stable.official.f62fdbde1",
+    "recorded_utc": "2026-09-17T12:48:43Z"
+  },
+  "fingerprint_id": "350e0714f82b",
+  "story_present": true,
+  "story_labels": [
+    "start",
+    "room_visit",
+    "ending"
+  ],
+  "notes": "Pinned by godot-lens. The project under test is not modified; this file records what was measured so a result can be attributed to a version."
+}

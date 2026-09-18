@@ -1,0 +1,67 @@
+{
+  "study": "renpy-fidelity-001",
+  "fingerprint": {
+    "project_path": "/home/adminstrator/projects/Renpy2Godot/godot_project",
+    "project_commit": "388cad63ecdd148062bf7683fea453cd7f9b17ee",
+    "project_commit_short": "388cad6",
+    "project_dirty": false,
+    "project_dirty_files": 0,
+    "schema": "godot-lens/observation",
+    "schema_version": "0.1",
+    "engine": "4.5.1.stable.official.f62fdbde1",
+    "recorded_utc": "2026-09-17T12:56:26Z"
+  },
+  "scene": "res://Main.tscn",
+  "frames_observed": 12,
+  "inputs_sent": 6,
+  "trace_stalled": true,
+  "stall_reason": "no display change after 3 accept inputs; the game is waiting for something an accept input does not satisfy (a menu choice, a timeout, or the end of the story)",
+  "executed_spans": {
+    "agree": true,
+    "executed_span_count": 10,
+    "ir_span_count": 25,
+    "uncovered_executions": []
+  },
+  "display_trace": {
+    "agree": true,
+    "expected_count": 4,
+    "matched_count": 4,
+    "missing": [],
+    "speaker_mismatches": [],
+    "runtime_displays": [
+      {
+        "frame": 0,
+        "text": "Hello, #friend.",
+        "speaker": "Eileen"
+      },
+      {
+        "frame": 1,
+        "text": "This is narration with an escaped quote: \"hello\".",
+        "speaker": ""
+      },
+      {
+        "frame": 3,
+        "text": "The exact branch is selected.",
+        "speaker": "Eileen"
+      },
+      {
+        "frame": 5,
+        "text": "What should we do next?",
+        "speaker": ""
+      }
+    ]
+  },
+  "ir_gaps": {
+    "agree": true,
+    "gap_count": 0,
+    "gaps": [],
+    "files_examined": [
+      "script.rpy"
+    ]
+  },
+  "ir_placements": {
+    "agree": true,
+    "problems": []
+  },
+  "agree": true
+}

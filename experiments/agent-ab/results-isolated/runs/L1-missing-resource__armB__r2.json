@@ -1,0 +1,43 @@
+{
+  "cell": "L1-missing-resource__armB__r2",
+  "case": "L1-missing-resource",
+  "level": 1,
+  "arm": "B",
+  "arm_name": "native",
+  "lens_available": false,
+  "repeat": 2,
+  "injected": "Broken.tscn references a script that is not on disk",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 70.3,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-missing-resource__armB__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the referenced resource 'scripts/story_runtime.gd' now exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 28,
+  "tool_calls": 27,
+  "bash_calls": 19,
+  "used_lens": false,
+  "lens_invocations": [],
+  "godot_invocations": 11,
+  "cost_usd": 0.9591500000000002,
+  "input_tokens": 55179,
+  "output_tokens": 9167,
+  "final_message": "oes_not_exist.gd` → `res://scripts/story_runtime.gd`, which is the real script in the project (the only `.gd` besides the now-removed temp test harness).\n2. **The root node type** — `Node2D` → `Control` (with full-rect anchors, matching `Main.tscn`). This second edit is required, not cosmetic: I tested it, and with the reference repaired but the node left as `Node2D`, Godot emitted a *new* error — `Script inherits from native type 'Control', so it can't be assigned to an object of type 'Node2D'`. The scene would still have been broken.\n\nI deliberately did **not** take the shortcut of creating a file literally named `does_not_exist.gd` — that would satisfy the loader while leaving a placeholder artifact, and it isn't \"fixing the reference.\"\n\n## Verification\n\nLoading and instantiating all three scenes headless, with zero errors:\n\n```\nOK: res://Broken.tscn -> Control\nOK: res://Main.tscn -> Control\nOK: res://VisualNovelPreview.tscn -> Control\n```\n\nThe full project runs clean (`godot --headless --quit-after 60`, exit 0, no output beyond the version banner).\n\nTwo notes on the environment: `.godot/` did not exist on arrival, so I ran `--import` once to build the cache (before that, the run reported missing `.ctex` files for `bg_room.svg` — an artifact of the un-imported state, not of the scene reference). I also regenerated that cache at the end so no stale `does_not_exist` entry lingered; a final `grep` across the project is clean. The temporary load-test script I used was removed."
+}

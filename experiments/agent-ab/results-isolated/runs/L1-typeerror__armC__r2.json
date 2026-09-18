@@ -1,0 +1,46 @@
+{
+  "cell": "L1-typeerror__armC__r2",
+  "case": "L1-typeerror",
+  "level": 1,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 2,
+  "injected": "var health: int = \"not an int\"",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 28.6,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-typeerror__armC__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "health is int-typed with a compatible value",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 11,
+  "tool_calls": 10,
+  "bash_calls": 8,
+  "used_lens": true,
+  "lens_invocations": [
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens validate 2>&1 | tail -30",
+    "GODOT_PROJECT=/tmp/ab-eval/L1-typeerror__armC__r2/godot_project godot-lens validate 2>&1 | tail -30"
+  ],
+  "godot_invocations": 6,
+  "cost_usd": 0.246826,
+  "input_tokens": 23015,
+  "output_tokens": 1791,
+  "final_message": "Fixed and verified.\n\n**The problem:** `godot_project/scripts/probe.gd:3` declared `var health: int` but initialized it with the string `\"not an int\"`, which is a parse error in GDScript's static type checking — so the script attached to `Main.tscn`'s root failed to load and the project wouldn't run.\n\n**The fix:** changed the initializer to a valid integer (`100`) and kept the `var health: int` declaration intact. No other code referenced `health` (grep found only this file), so the type is what the declaration always intended — only the bogus placeholder value was wrong.\n\n**Verification:**\n- `godot --headless --check-only --script res://scripts/probe.gd` — parses clean\n- `godot --headless --quit-after 60` — boots and prints `100` (`_ready` runs), no errors\n- `godot-lens validate` — `CLEAN — no findings` across all three layers (static parse, scene load, 180-frame runtime with no errors or warnings)"
+}

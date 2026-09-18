@@ -1,0 +1,50 @@
+{
+  "cell": "L1-missing-resource__armC__r2",
+  "case": "L1-missing-resource",
+  "level": 1,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 2,
+  "injected": "Broken.tscn references a script that is not on disk",
+  "injected_visible_to_native_arm": true,
+  "elapsed_s": 106.4,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L1-missing-resource__armC__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": true,
+  "repaired": true,
+  "detail": "the referenced resource 'scripts/story_runtime.gd' now exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 32,
+  "tool_calls": 31,
+  "bash_calls": 28,
+  "used_lens": true,
+  "lens_invocations": [
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent 2>&1 | head -50",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens diagnose 2>&1 | head -40",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r2 && GODOT_PROJECT=$(pwd)/godot_project godot-lens validate 2>&1 | tail -30",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r2 && GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent 2>&1 | tail -20",
+    "cd /tmp/ab-eval/L1-missing-resource__armC__r2 && GODOT_PROJECT=$(pwd)/godot_project godot-lens validate 2>&1 | tail -20",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent 2>&1 | tail -20 && echo \"=== SCENE FILE ===\" && cat godot_project/Broken.tscn"
+  ],
+  "godot_invocations": 16,
+  "cost_usd": 0.9172410000000001,
+  "input_tokens": 40354,
+  "output_tokens": 11111,
+  "final_message": "l printed at instantiation:\n\n```\nERROR: Script inherits from native type 'Control', so it can't be assigned to an object of type 'Node2D'.\n```\n\nThe script reference resolved but the script never attached — `_ready()` never ran, so the scene was silently dead. `story_runtime.gd` extends `Control` (it builds a full UI in `_ready()`), so the root node type was changed to `Control` to match. That's a one-line change, not a rewrite; the node name and structure are untouched.\n\n**Verified:**\n- `godot --headless --quit --scene res://Broken.tscn` → no output, no errors\n- Runtime tree dump confirms the script is genuinely attached and executed: `Broken` is a `Control` with `script: res://scripts/story_runtime.gd` and 6 children built by `_ready()` (`Images`, `Screens`, `FadeOverlay`, `RichTextLabel`, `Label`, `Button`, `VBoxContainer`) — not an empty scene\n- `godot-lens validate` → CLEAN across all three layers; `inspect` → `ok: True`, `Broken.tscn: static 0 -> runtime 6 (Control)`\n\nOne caveat on the tooling, since it affects how much a green check is worth here: `godot-lens validate` reported **CLEAN** even in the intermediate state where Godot was emitting the base-type ERROR on every instantiation. Its scene layer greps for `Failed loading|Parse Error|Cannot get class|non-existent resource|Cannot open file`, and \"Script inherits from native type\" matches none of those. So the validator passing was not by itself evidence the scene worked — the runtime tree dump was what confirmed it."
+}

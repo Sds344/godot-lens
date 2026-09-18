@@ -1,0 +1,49 @@
+{
+  "cell": "L2-unset-export__armC__r2",
+  "case": "L2-unset-export",
+  "level": 2,
+  "arm": "C",
+  "arm_name": "lens",
+  "lens_available": true,
+  "repeat": 2,
+  "injected": "@export var target: NodePath declared with no assignment",
+  "injected_visible_to_native_arm": false,
+  "elapsed_s": 69.2,
+  "timed_out": false,
+  "process_rc": 0,
+  "process_stderr_tail": "",
+  "transcript": "experiments/agent-ab/results-isolated/transcripts/L2-unset-export__armC__r2.jsonl",
+  "fingerprint": {
+    "project_commit": null,
+    "project_commit_short": null
+  },
+  "sandbox": {
+    "engine": "bwrap",
+    "hermeticity": "verified",
+    "probe": "kit, sibling repos, /mnt/wslg, real $HOME, CLI history, other cells",
+    "network": "shared (egress proxy passed through); no net namespace"
+  },
+  "arm_visible": false,
+  "repaired": true,
+  "detail": "target is assigned to 'Other', which exists",
+  "repair_quality": 3,
+  "hack": null,
+  "declared_done": true,
+  "false_claim": false,
+  "turns": 20,
+  "tool_calls": 19,
+  "bash_calls": 16,
+  "used_lens": true,
+  "lens_invocations": [
+    "cd /tmp/ab-eval/L2-unset-export__armC__r2 && GODOT_PROJECT=$(pwd)/godot_project godot-lens diagnose 2>&1 | head -60",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect --agent 2>&1 | head -60",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens validate 2>&1 | head -60; echo \"=== api ===\"; GODOT_PROJECT=$(pwd)/godot_project godot-lens api 2>&1 | head -30",
+    "cd /tmp/ab-eval/L2-unset-export__armC__r2 && GODOT_PROJECT=$(pwd)/godot_project godot-lens diagnose 2>&1 | head -40",
+    "GODOT_PROJECT=$(pwd)/godot_project godot-lens validate 2>&1 | tail -20; echo \"=== inspect ===\"; GODOT_PROJECT=$(pwd)/godot_project godot-lens inspect 2>&1 | tai"
+  ],
+  "godot_invocations": 12,
+  "cost_usd": 0.440132,
+  "input_tokens": 26514,
+  "output_tokens": 6330,
+  "final_message": "de2D#24897389931>`.\n- `godot-lens validate`: **CLEAN**. `godot-lens inspect`: `ok: True`, 0 errors/warnings.\n\nThe fix is one line in `godot_project/Main.tscn:7`:\n\n```\n[node name=\"Main\" type=\"Node2D\"]\nscript = ExtResource(\"1_p\")\ntarget = NodePath(\"Other\")   # <-- added\nspeed = 2.0\n```\n\n`target` stays declared as `@export var target: NodePath` in `scripts/probe.gd:3` — the feature is intact, it's just now wired to the `Other` node that exists in the scene.\n\nOne thing to flag, since it looks alarming: `godot-lens diagnose` now reports **two** `PROPERTY_ON_WRONG_CLASS` errors, claiming `target` *and* `speed` \"are not a member of `Node2D`, nor declared by an attached script.\" Both are false positives, and I deliberately did **not** act on them:\n\n- Before my change it flagged only `speed`, not `target` (which wasn't in the file yet) — i.e. it flags every non-`script` property line under that node and doesn't resolve exports declared by the attached script.\n- I confirmed with the engine that the script *is* attached (`<GDScript#...>`) and that both properties apply: `speed = 2.0`, `target = Other`. The diagnostic's premise — \"Godot ignores an unknown property on a headless load, so the scene loads with this setting silently absent\" — is demonstrably untrue here.\n\nClearing those two messages would mean deleting working, exported properties from the scene, which would break the feature. The engine's own output is the authority, and it reports the wiring working.\n\nThe task is complete."
+}
