@@ -21,7 +21,8 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/OWNER/godot-lens"
+Homepage = "https://github.com/Sds344/godot-lens"
+Issues = "https://github.com/Sds344/godot-lens/issues"
 
 [project.scripts]
 godot-lens = "godot_lens.cli:main"
