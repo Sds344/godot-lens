@@ -8,6 +8,13 @@ name: godot-lens
 #
 # Two things are deliberately explicit here because a green pipeline is trusted,
 # and these are the ways this pipeline could go green while being wrong.
+#
+# This workflow is written for a game repository that has godot-lens cloned
+# inside it (`your-game/godot-lens/`), which is how README.md says to install it.
+# In godot-lens's OWN repository the kit is the checkout root, so a hardcoded
+# `godot-lens/` prefix resolves to the `godot-lens` *script file* rather than a
+# directory: every step died with "Not a directory" and the run went red on every
+# push. The kit root is now resolved once, below, so both layouts work.
 on:
   push:
     branches: ["**"]
@@ -38,38 +45,65 @@ jobs:
           install -m 0755 "/tmp/godot/${file}" /usr/local/bin/godot
           godot --version
 
-      - name: Locate the Godot project
+      - name: Locate the kit and the Godot project
         run: |
           set -euo pipefail
-          # Never guess: a wrong-but-plausible project makes every later result
-          # describe something nobody asked about.
-          if [ -z "${GODOT_PROJECT:-}" ]; then
-            found="$(find . -name project.godot -not -path './.git/*' -printf '%h\n' | head -1)"
-            if [ -z "$found" ]; then
-              echo "::error::no project.godot found in this repository"
-              exit 1
-            fi
-            echo "GODOT_PROJECT=${found}" >> "$GITHUB_ENV"
+
+          # Which layout are we in? Kit inside a game repo, or the kit's own repo.
+          if [ -d godot-lens/tools ]; then kit=godot-lens; else kit=.; fi
+          echo "KIT=$kit" >> "$GITHUB_ENV"
+          echo "kit: $kit"
+
+          if [ -n "${GODOT_PROJECT:-}" ]; then
+            echo "project (from GODOT_PROJECT): $GODOT_PROJECT"
+            exit 0
           fi
-          echo "project: ${GODOT_PROJECT:-$found}"
+
+          # Never guess: a wrong-but-plausible project makes every later result
+          # describe something nobody asked about. `find` is therefore only used
+          # in the consumer layout, where the answer genuinely is "wherever the
+          # game is". In the kit's own repository it would pick a scratch or
+          # fixture project depending on directory order, so the target is named
+          # outright instead.
+          if [ "$kit" = "." ]; then
+            # The kit's own repository ships no game. Validate the bundled
+            # fixture rather than skipping: it is a real Godot project, so the
+            # engine-facing half of this pipeline still runs, and skipping would
+            # let that half rot unnoticed.
+            found="${kit}/experiments/agent-ab/projects/hud"
+            [ -d "$found" ] && echo "::notice::no game project here; validating the bundled fixture at ${found}"
+          else
+            found="$(find . -name project.godot -not -path './.git/*' \
+                       -not -path "./${kit}/*" -printf '%h\n' | head -1)"
+          fi
+
+          if [ -z "${found:-}" ] || [ ! -f "${found}/project.godot" ]; then
+            echo "::error::no project.godot found in this repository"
+            exit 1
+          fi
+          echo "GODOT_PROJECT=${found}" >> "$GITHUB_ENV"
+          echo "project: ${found}"
 
       - name: Build the engine API reference
         run: |
           set -euo pipefail
           # Generated from the installed binary, so it cannot disagree with the
           # engine actually running.
-          bash godot-lens/tools/godot_api.sh dump
+          bash "$KIT/tools/godot_api.sh" dump
 
       - name: Validate (static / scene / runtime)
         run: |
           set -euo pipefail
           # --json emits one object per finding, so results can be annotated onto
           # the diff instead of scraped out of a log.
-          bash godot-lens/tools/godot_validate.sh --json | tee /tmp/validate.txt
+          bash "$KIT/tools/godot_validate.sh" --json | tee /tmp/validate.txt
 
       - name: Annotate findings on the diff
         if: always()
-        run: python3 godot-lens/benchmarks/annotate.py /tmp/validate.txt
+        run: |
+          set -euo pipefail
+          [ -f /tmp/validate.txt ] || exit 0
+          python3 "$KIT/benchmarks/annotate.py" /tmp/validate.txt
 
       - name: Verify the graders themselves
         run: |
@@ -77,8 +111,8 @@ jobs:
           # A benchmark that can pass a broken project manufactures confidence,
           # so its own correctness is part of this pipeline rather than a local
           # nicety.
-          python3 godot-lens/benchmarks/selftest.py
-          python3 godot-lens/benchmarks/study_selftest.py
+          python3 "$KIT/benchmarks/selftest.py"
+          python3 "$KIT/benchmarks/study_selftest.py"
 
       - name: Verify the renderers
         run: |
@@ -86,7 +120,7 @@ jobs:
           # Needs no Godot and no project: the renderers are pure functions of a
           # frozen payload, which is what makes the awkward inputs (a project that
           # cannot boot, a malformed field) testable at all.
-          python3 godot-lens/benchmarks/render_selftest.py
+          python3 "$KIT/benchmarks/render_selftest.py"
 
       - name: Measure observability coverage
         run: |
@@ -96,4 +130,4 @@ jobs:
           # class behaves differently from the registry: a documented blind spot
           # being missed is a pass, because the measurement agreeing with the
           # documented limit is the point.
-          python3 godot-lens/benchmarks/coverage.py
+          python3 "$KIT/benchmarks/coverage.py"
